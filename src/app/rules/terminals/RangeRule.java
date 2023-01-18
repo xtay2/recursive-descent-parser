@@ -18,6 +18,6 @@ public class RangeRule extends Rule {
 	@Override
 	public boolean matches(String input) {
 		input = input.trim();
-		return input.length() == 1 && input.charAt(0) >= from && input.charAt(0) <= to;
+		return log(from, to, input, input.length() == 1 && input.charAt(0) >= from && input.charAt(0) <= to);
 	}
 }

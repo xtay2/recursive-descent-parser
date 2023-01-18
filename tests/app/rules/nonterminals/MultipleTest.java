@@ -2,29 +2,29 @@ package app.rules.nonterminals;
 
 import org.junit.jupiter.api.Test;
 
-import static app.rules.Rules.alt;
 import static app.rules.Rules.lit;
+import static app.rules.Rules.mult;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class AlterationTest {
+public class MultipleTest {
 
 	@Test
 	public void testMatches() {
-		var rule = alt(lit("abc"), lit("123"));
+		var rule = mult(lit("abc"));
 		assertTrue(rule.matches("abc"));
-		assertTrue(rule.matches("123"));
-		assertTrue(rule.matches(" abc "));
-		assertTrue(rule.matches(" 123 "));
+		assertTrue(rule.matches("abcabc"));
+		assertTrue(rule.matches("abcabcabc"));
+		assertTrue(rule.matches(" abc abc abc "));
 	}
 
 	@Test
 	public void testFails() {
-		var rule = alt(lit("abc"), lit("123"));
-		assertFalse(rule.matches("xyz"));
-		assertFalse(rule.matches("abcabc"));
-		assertFalse(rule.matches("abc123"));
+		var rule = mult(lit("abc"));
 		assertFalse(rule.matches(""));
+		assertFalse(rule.matches("xyz"));
+		assertFalse(rule.matches("abc123"));
+		assertFalse(rule.matches("abcabc123"));
 	}
 
 }
