@@ -21,5 +21,4 @@ public class RangeTest {
 		assertFalse(rule.matches("5"));
 	}
 
-
 }

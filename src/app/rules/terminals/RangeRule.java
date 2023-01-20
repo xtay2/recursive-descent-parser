@@ -7,6 +7,7 @@ public class RangeRule extends Rule {
 	private final char from, to;
 
 	public RangeRule(char from, char to) {
+		super(1, 1);
 		this.from = from;
 		this.to = to;
 	}

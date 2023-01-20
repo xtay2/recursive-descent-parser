@@ -1,26 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4153f80-c0b6-4d24-bc98-1ed6a9d70738" name="Changes" comment="init(Simple Rules)">
-      <change afterPath="$PROJECT_DIR$/src/app/rules/Rules.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/LazyRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/MultipleRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/OptionalRule.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/helper/ANSI.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/app/rules/ComplexRuleTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/app/rules/nonterminals/LazyTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/app/rules/nonterminals/MultipleTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/app/rules/nonterminals/OptionalTest.java" afterDir="false" />
+    <list default="true" id="a4153f80-c0b6-4d24-bc98-1ed6a9d70738" name="Changes" comment="feat(Length Optimization)">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RecursiveDescentParserYoutube.iml" beforeDir="false" afterPath="$PROJECT_DIR$/RecursiveDescentParserYoutube.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rules/Rule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/Rule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/AlterationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/AlterationRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/LazyRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/LazyRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/MultipleRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/MultipleRule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/OptionalRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/OptionalRule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/SequenceRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/SequenceRule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rules/terminals/LiteralRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/terminals/LiteralRule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rules/terminals/RangeRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/terminals/RangeRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/app/rules/nonterminals/AlterationTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/app/rules/nonterminals/AlterationTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/app/rules/nonterminals/SequenceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/app/rules/nonterminals/SequenceTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/app/rules/terminals/LiteralTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/app/rules/terminals/LiteralTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/app/rules/terminals/RangeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/app/rules/terminals/RangeTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../helper/helper.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../helper/helper.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,11 +32,40 @@
       </list>
     </option>
   </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
+    <favorite-branches>
+      <branch-storage>
+        <map>
+          <entry type="LOCAL">
+            <value>
+              <list>
+                <branch-info source="dev" />
+                <branch-info repo="$PROJECT_DIR$/../helper" source="dev" />
+              </list>
+            </value>
+          </entry>
+          <entry type="REMOTE">
+            <value>
+              <list>
+                <branch-info source="origin/dev" />
+              </list>
+            </value>
+          </entry>
+        </map>
+      </branch-storage>
+    </favorite-branches>
+    <option name="RECENT_COMMON_BRANCH" value="master" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectId" id="2K9ZkYXCRBZyM0zZiuxZkZVzX2W" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -59,7 +85,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "full.screen.before.presentation.mode": "false",
-    "settings.editor.selected.configurable": "preferences.editor"
+    "jdk.selected.JAVA_MODULE": "19",
+    "last_opened_file_path": "C:/Users/x-tay/Documents/Programmierung/Java/helper",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "actions.on.save"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -67,11 +98,26 @@
       <recent name="C:\Users\x-tay\Documents\Programmierung\Java\RecursiveDescentParserYoutube\src" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.ComplexRuleTests">
+  <component name="RunManager" selected="JUnit.All in RecursiveDescentParserYoutube">
     <configuration name="All in RecursiveDescentParserYoutube" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="RecursiveDescentParserYoutube" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AlterationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="RecursiveDescentParserYoutube" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="app.rules.nonterminals.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="app.rules.nonterminals" />
+      <option name="MAIN_CLASS_NAME" value="app.rules.nonterminals.AlterationTest" />
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -107,21 +153,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MultipleTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="RecursiveDescentParserYoutube" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="app.rules.nonterminals.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="app.rules.nonterminals" />
-      <option name="MAIN_CLASS_NAME" value="app.rules.nonterminals.MultipleTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="OptionalTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="RecursiveDescentParserYoutube" />
       <extension name="coverage">
@@ -139,11 +170,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ComplexRuleTests" />
-        <item itemvalue="JUnit.ComplexRuleTests.testExpression" />
         <item itemvalue="JUnit.All in RecursiveDescentParserYoutube" />
+        <item itemvalue="JUnit.AlterationTest" />
+        <item itemvalue="JUnit.ComplexRuleTests.testExpression" />
+        <item itemvalue="JUnit.ComplexRuleTests" />
         <item itemvalue="JUnit.OptionalTest" />
-        <item itemvalue="JUnit.MultipleTest" />
       </list>
     </recent_temporary>
   </component>
@@ -163,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1673401795159</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat(Advanced Rules)">
+      <created>1674007686572</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1674007686572</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -179,7 +217,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init(Simple Rules)" />
-    <option name="LAST_COMMIT_MESSAGE" value="init(Simple Rules)" />
+    <MESSAGE value="feat(Advanced Rules)" />
+    <MESSAGE value="feat(Length Optimization)" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Length Optimization)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -188,7 +228,16 @@
           <properties class="java.lang.StackOverflowError" package="java.lang" />
           <option name="timeStamp" value="1" />
         </breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/tests/app/rules/nonterminals/LazyTest.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

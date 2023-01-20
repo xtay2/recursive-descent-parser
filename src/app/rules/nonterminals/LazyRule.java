@@ -5,12 +5,15 @@ import app.rules.Rule;
 import java.util.*;
 import java.util.function.Supplier;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class LazyRule extends Rule {
 
 	private final Supplier<Rule> rule;
 	private final Set<String> matchStack = new HashSet<>();
 
 	public LazyRule(Supplier<Rule> rule) {
+		super(0, MAX_VALUE);
 		if (rule == null)
 			throw new IllegalArgumentException("LazyRule has to take a rule-supplier.");
 		this.rule = rule;

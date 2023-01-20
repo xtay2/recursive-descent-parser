@@ -7,8 +7,7 @@ public class LiteralRule extends Rule {
 	private final String literal;
 
 	public LiteralRule(String literal) {
-		if(literal == null)
-			throw new IllegalArgumentException("LiteralRule has to take a rule.");
+		super(literal.length(), literal.length());
 		this.literal = literal;
 	}
 
@@ -17,6 +16,5 @@ public class LiteralRule extends Rule {
 	public boolean matches(String input) {
 		return log(literal, input, input.trim().equals(literal));
 	}
-
 
 }
