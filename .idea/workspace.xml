@@ -1,23 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4153f80-c0b6-4d24-bc98-1ed6a9d70738" name="Changes" comment="feat(Length Optimization)">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="a4153f80-c0b6-4d24-bc98-1ed6a9d70738" name="Changes" comment="feat(Little Optimization)">
+      <change afterPath="$PROJECT_DIR$/../../../Libraries/Java/helper/src/helper/io/ANSI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Libraries/Java/helper/src/helper/base/StringHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Libraries/Java/helper/src/helper/base/StringHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../Libraries/Java/helper/test/helper/misc/UnsafeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../Libraries/Java/helper/test/helper/misc/UnsafeTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RecursiveDescentParserYoutube.iml" beforeDir="false" afterPath="$PROJECT_DIR$/RecursiveDescentParserYoutube.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/Main.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/rules/Rule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/Rule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/AlterationRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/AlterationRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/LazyRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/LazyRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/MultipleRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/MultipleRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/OptionalRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/OptionalRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/nonterminals/SequenceRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/nonterminals/SequenceRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/terminals/LiteralRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/terminals/LiteralRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/rules/terminals/RangeRule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/rules/terminals/RangeRule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/app/rules/terminals/RangeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/tests/app/rules/terminals/RangeTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../helper/helper.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../helper/helper.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/helper/ANSI.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +50,7 @@
       </branch-storage>
     </favorite-branches>
     <option name="RECENT_COMMON_BRANCH" value="master" />
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../Libraries/Java/helper" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -75,24 +67,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Downloaded.Files.Path.Enabled": "false",
-    "Repository.Attach.Annotations": "false",
-    "Repository.Attach.JavaDocs": "false",
-    "Repository.Attach.Sources": "false",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "full.screen.before.presentation.mode": "false",
-    "jdk.selected.JAVA_MODULE": "19",
-    "last_opened_file_path": "C:/Users/x-tay/Documents/Programmierung/Java/helper",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "actions.on.save"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;full.screen.before.presentation.mode&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;19&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/PC/Documents/Programmierung/Libraries/Java/helper&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\x-tay\Documents\Programmierung\Java\RecursiveDescentParserYoutube\src" />
@@ -219,7 +211,8 @@
     <MESSAGE value="init(Simple Rules)" />
     <MESSAGE value="feat(Advanced Rules)" />
     <MESSAGE value="feat(Length Optimization)" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat(Length Optimization)" />
+    <MESSAGE value="feat(Little Optimization)" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat(Little Optimization)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

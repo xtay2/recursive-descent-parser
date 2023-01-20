@@ -1,15 +1,18 @@
 package app.rules;
 
-import helper.ANSI;
+import helper.io.ANSI;
 
 import java.util.Arrays;
 
 import static helper.base.StringHelper.occ;
+import static helper.base.StringHelper.occAtStart;
 import static java.lang.Integer.MAX_VALUE;
 
 public abstract class Rule {
 
-	/** If true, every rule posts debugging-info while matching. */
+	/**
+	 * If true, every rule posts debugging-info while matching.
+	 */
 	private static final boolean LOG = true;
 
 	public final int minLength;
@@ -33,13 +36,16 @@ public abstract class Rule {
 	 */
 	public abstract boolean matches(String input);
 
-	/** Returns the minimum length of the input that matches this rule. */
+	/**
+	 * Returns the minimum length of the input that matches this rule.
+	 */
 	public static int minLength(Rule rule, String snippet) {
-		// TODO: Work with snippet
-		return rule.minLength;
+		return rule.minLength + occAtStart(' ', snippet);
 	}
 
-	/** Returns the maximum length of the input that matches this rule. */
+	/**
+	 * Returns the maximum length of the input that matches this rule.
+	 */
 	public static int maxLength(Rule rule, String snippet) {
 		return rule.maxLength == MAX_VALUE
 				? MAX_VALUE
