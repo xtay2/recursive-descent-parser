@@ -1,0 +1,3 @@
+module RecursiveDescentParserYoutube {
+	requires helper;
+}

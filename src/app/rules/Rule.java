@@ -58,9 +58,9 @@ public abstract class Rule {
 	/**
 	 * Returns the result and maybe logs it.
 	 */
-	protected final boolean result(String literal, String input, final boolean res) {
+	protected final boolean result(String literal, String input, final boolean res, String reason) {
 		if (LOG) {
-			String s = this + ": " + literal + " for \"" + input + "\" = " + res;
+			String s = this + ": " + literal + " for \"" + input + "\" = " + res + ANSI.color(ANSI.YELLOW, " (" + reason + ")");
 			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
 		}
 		return res;
@@ -69,9 +69,9 @@ public abstract class Rule {
 	/**
 	 * Returns the result and maybe logs it.
 	 */
-	protected final boolean result(char from, char to, String input, final boolean res) {
+	protected final boolean result(char from, char to, String input, final boolean res, String reason) {
 		if (LOG) {
-			String s = this + ": " + from + "-" + to + " for \"" + input + "\" = " + res;
+			String s = this + ": " + from + "-" + to + " for \"" + input + "\" = " + res + ANSI.color(ANSI.YELLOW, " (" + reason + ")");
 			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
 		}
 		return res;
@@ -80,9 +80,9 @@ public abstract class Rule {
 	/**
 	 * Returns the result and maybe logs it.
 	 */
-	protected final boolean result(Rule rule, String input, final boolean res) {
+	protected final boolean result(Rule rule, String input, final boolean res, String reason) {
 		if (LOG) {
-			String s = this + ": " + rule.getClass().getSimpleName() + " for \"" + input + "\" = " + res;
+			String s = this + ": " + rule.getClass().getSimpleName() + " for \"" + input + "\" = " + res + res + ANSI.color(ANSI.YELLOW, " (" + reason + ")");
 			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
 		}
 		return res;

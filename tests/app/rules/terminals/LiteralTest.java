@@ -4,8 +4,7 @@ package app.rules.terminals;
 import org.junit.jupiter.api.Test;
 
 import static app.rules.Rules.lit;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LiteralTest {
 
@@ -22,4 +21,16 @@ public class LiteralTest {
 		assertFalse(rule.matches("xyz"));
 	}
 
+	@Test
+	public void testMatchesFirst() {
+		var rule = lit("abc");
+		assertEquals(0, rule.matchesStart("0"));
+		assertEquals(4, rule.matchesStart("abc abc"));
+		assertEquals(3, rule.matchesStart("abc"));
+		assertEquals(0, rule.matchesStart("   "));
+		assertEquals(4, rule.matchesStart("abc "));
+		assertEquals(5, rule.matchesStart(" abc "));
+		assertEquals(5, rule.matchesStart(" abc 3"));
+		assertEquals(4, rule.matchesStart(" abc0abc"));
+	}
 }

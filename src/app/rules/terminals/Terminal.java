@@ -6,6 +6,12 @@ public abstract class Terminal extends Rule {
 
 	protected Terminal(int minLength, int maxLength) {
 		super(minLength, maxLength);
+		assert minLength > 0 && maxLength >= minLength;
+	}
+
+	@Override
+	public final boolean matches(String input) {
+		return matchesStart(input) == input.length();
 	}
 
 	/**

@@ -11,7 +11,7 @@ public abstract class SingleNonTerminal extends Rule {
 		this.rule = rule;
 	}
 
-	protected final boolean result(String input, final boolean res) {
-		return result(rule, input, res);
+	protected final boolean result(String input, final boolean res, String reason) {
+		return result(rule, input, res, reason);
 	}
 }

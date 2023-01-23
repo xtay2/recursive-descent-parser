@@ -26,11 +26,11 @@ public class LazyRule extends Rule {
 	@Override
 	public boolean matches(String input) {
 		if (matchStack.contains(input))
-			return result(rule.get(), input, false);
+			return result(rule.get(), input, false, "infinite loop");
 		matchStack.add(input);
 		boolean res = rule.get().matches(input);
 		matchStack.remove(input);
-		return result(rule.get(), input, res);
+		return result(rule.get(), input, res, "Child rule " + rule.get() + " answered");
 	}
 
 }

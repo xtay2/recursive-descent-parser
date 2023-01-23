@@ -14,13 +14,6 @@ public class OptionalRule extends SingleNonTerminal {
 	 */
 	@Override
 	public boolean matches(String input) {
-		// @formatter:off
-		return result(input,
-				// Input is empty
-				input.trim().isEmpty() ||
-				// Rule matches
-				(rule.minLength(input) <= input.length() && input.length() <= rule.maxLength(input) && rule.matches(input))
-		);
-		// @formatter:on
+		return result(input, input.trim().isEmpty() || rule.matches(input), "Child rule " + rule + " answered");
 	}
 }
