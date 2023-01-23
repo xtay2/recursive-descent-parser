@@ -2,8 +2,6 @@ package app.rules;
 
 import helper.io.ANSI;
 
-import java.util.Arrays;
-
 import static helper.base.StringHelper.occ;
 import static helper.base.StringHelper.occAtStart;
 import static java.lang.Integer.MAX_VALUE;
@@ -13,10 +11,13 @@ public abstract class Rule {
 	/**
 	 * If true, every rule posts debugging-info while matching.
 	 */
-	private static final boolean LOG = true;
+	protected static final boolean LOG = true;
 
-	public final int minLength;
-	public final int maxLength;
+	/**
+	 * The minimum and maximum length of the input that this rule can match.
+	 * (Not including leading and trailing whitespaces.)
+	 */
+	public final int minLength, maxLength;
 
 	protected Rule(int minLength, int maxLength) {
 		if (minLength < 0)
@@ -29,7 +30,6 @@ public abstract class Rule {
 		this.maxLength = maxLength;
 	}
 
-
 	/**
 	 * Tells whether the given input matches this rule.
 	 * Leading and trailing whitespaces are discarded.
@@ -39,23 +39,26 @@ public abstract class Rule {
 	/**
 	 * Returns the minimum length of the input that matches this rule.
 	 */
-	public static int minLength(Rule rule, String snippet) {
-		return rule.minLength + occAtStart(' ', snippet);
+	public int minLength(String snippet) {
+		return minLength + occAtStart(' ', snippet);
 	}
 
 	/**
 	 * Returns the maximum length of the input that matches this rule.
 	 */
-	public static int maxLength(Rule rule, String snippet) {
-		return rule.maxLength == MAX_VALUE
-				? MAX_VALUE
-				: rule.maxLength + occ(" ", snippet);
+	public int maxLength(String snippet) {
+		if (maxLength == MAX_VALUE)
+			return MAX_VALUE;
+		return maxLength + occ(" ", snippet);
 	}
 
 
 	// Logging
 
-	protected final boolean log(String literal, String input, final boolean res) {
+	/**
+	 * Returns the result and maybe logs it.
+	 */
+	protected final boolean result(String literal, String input, final boolean res) {
 		if (LOG) {
 			String s = this + ": " + literal + " for \"" + input + "\" = " + res;
 			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
@@ -63,7 +66,10 @@ public abstract class Rule {
 		return res;
 	}
 
-	protected final boolean log(char from, char to, String input, final boolean res) {
+	/**
+	 * Returns the result and maybe logs it.
+	 */
+	protected final boolean result(char from, char to, String input, final boolean res) {
 		if (LOG) {
 			String s = this + ": " + from + "-" + to + " for \"" + input + "\" = " + res;
 			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
@@ -71,17 +77,12 @@ public abstract class Rule {
 		return res;
 	}
 
-	protected final boolean log(Rule rule, String input, final boolean res) {
+	/**
+	 * Returns the result and maybe logs it.
+	 */
+	protected final boolean result(Rule rule, String input, final boolean res) {
 		if (LOG) {
 			String s = this + ": " + rule.getClass().getSimpleName() + " for \"" + input + "\" = " + res;
-			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
-		}
-		return res;
-	}
-
-	protected final boolean log(Rule[] rules, String input, final boolean res) {
-		if (LOG) {
-			String s = this + ": " + Arrays.toString(rules) + " for \"" + input + "\" = " + res;
 			System.out.println(res ? ANSI.color(ANSI.GREEN, s) : s);
 		}
 		return res;

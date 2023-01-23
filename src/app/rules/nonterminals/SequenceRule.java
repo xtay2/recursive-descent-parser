@@ -1,31 +1,41 @@
 package app.rules.nonterminals;
 
 import app.rules.Rule;
+import app.rules.abstractions.MultiNonTerminal;
+import app.rules.terminals.Terminal;
 
 import static java.lang.Integer.MAX_VALUE;
 import static java.lang.Math.min;
 
-public class SequenceRule extends Rule {
-
-	private final Rule[] rules;
+public class SequenceRule extends MultiNonTerminal {
 
 	public SequenceRule(Rule... rules) {
-		super(calcMinLen(rules), calcMaxLen(rules));
-		if (rules.length < 2)
-			throw new IllegalArgumentException("SequenceRule must contain at least two rules.");
-		this.rules = rules;
+		super(rules, calcMinLen(rules), calcMaxLen(rules));
 	}
 
-	/** Returns true if the input matches every {@link Rule} in {@link #rules} in order. */
+	/**
+	 * Returns true if the input matches every {@link Rule} in {@link #rules} in order.
+	 */
 	@Override
 	public boolean matches(String input) {
+		// Search cache
+		var cached = cache.get(input);
+		if (cached != null)
+			return cached;
+		// Check if the input matches every rule in order
 		int start = 0;
 		nextRule:
 		for (Rule rule : rules) {
-			// Determine Min & Max Length
 			var snippet = input.substring(start);
-			int max = rule.maxLength == MAX_VALUE ? input.length() : min(start + maxLength(rule, snippet), input.length());
-			int min = start + minLength(rule, snippet);
+			if (rule instanceof Terminal t) {
+				start = t.matchesStart(snippet);
+				if (start == 0)
+					return result(input, false);
+				continue;
+			}
+			// Determine Min & Max Length
+			int max = rule.maxLength == MAX_VALUE ? input.length() : min(start + rule.maxLength(snippet), input.length());
+			int min = start + rule.minLength(snippet);
 			// Find the longest match
 			for (int end = max; end >= min; end--) {
 				if (rule.matches(input.substring(start, end))) {
@@ -33,9 +43,9 @@ public class SequenceRule extends Rule {
 					continue nextRule;
 				}
 			}
-			return log(rules, input, false);
+			return result(input, false);
 		}
-		return log(rules, input, start == input.length());
+		return result(input, start == input.length());
 	}
 
 	// Helpers

@@ -2,7 +2,8 @@ package app.rules.nonterminals;
 
 import app.rules.Rule;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.function.Supplier;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -19,15 +20,17 @@ public class LazyRule extends Rule {
 		this.rule = rule;
 	}
 
-	/** Returns true if the supplied rule is matched and not in an infinite loop. */
+	/**
+	 * Returns true if the supplied rule is matched and not in an infinite loop.
+	 */
 	@Override
 	public boolean matches(String input) {
 		if (matchStack.contains(input))
-			return log(rule.get(), input, false);
+			return result(rule.get(), input, false);
 		matchStack.add(input);
 		boolean res = rule.get().matches(input);
 		matchStack.remove(input);
-		return log(rule.get(), input, res);
+		return result(rule.get(), input, res);
 	}
 
 }
