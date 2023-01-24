@@ -22,12 +22,12 @@ public class WordTest {
 	}
 
 	@Test
-	public void testMatchesFirst() {
+	public void matchesStart() {
 		var rule = word('a', 'z');
-		assertEquals(0, rule.matchesStart("0"));
+		assertEquals(-1, rule.matchesStart("0"));
 		assertEquals(2, rule.matchesStart("a a"));
 		assertEquals(3, rule.matchesStart("aaa"));
-		assertEquals(0, rule.matchesStart("   "));
+		assertEquals(-1, rule.matchesStart("   "));
 		assertEquals(4, rule.matchesStart("aaa "));
 		assertEquals(5, rule.matchesStart(" aaa "));
 		assertEquals(5, rule.matchesStart(" aaa 3"));

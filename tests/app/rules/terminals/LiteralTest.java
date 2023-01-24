@@ -22,12 +22,12 @@ public class LiteralTest {
 	}
 
 	@Test
-	public void testMatchesFirst() {
+	public void matchesStart() {
 		var rule = lit("abc");
-		assertEquals(0, rule.matchesStart("0"));
+		assertEquals(-1, rule.matchesStart("0"));
 		assertEquals(4, rule.matchesStart("abc abc"));
 		assertEquals(3, rule.matchesStart("abc"));
-		assertEquals(0, rule.matchesStart("   "));
+		assertEquals(-1, rule.matchesStart("   "));
 		assertEquals(4, rule.matchesStart("abc "));
 		assertEquals(5, rule.matchesStart(" abc "));
 		assertEquals(5, rule.matchesStart(" abc 3"));

@@ -16,7 +16,7 @@ public class LiteralRule extends Terminal {
 	public int matchesStart(String input) {
 		int lastSpaceIdx = occAtStart(' ', input);
 		if (input.length() - lastSpaceIdx < literal.length() || !input.substring(lastSpaceIdx, lastSpaceIdx + literal.length()).equals(literal))
-			return 0;
+			return -1;
 		int len = lastSpaceIdx + literal.length();
 		return len + occAfter(' ', len, input);
 	}

@@ -1,13 +1,11 @@
 package app.rules.nonterminals;
 
-import app.rules.Rule;
 import app.rules.abstractions.OrderedNonTerminal;
+import app.rules.abstractions.Rule;
 import app.rules.abstractions.SingleNonTerminal;
-import app.rules.terminals.Terminal;
 
 import static app.rules.abstractions.OrderedNonTerminal.canNotMatchStart;
 import static java.lang.Integer.MAX_VALUE;
-import static java.lang.Math.min;
 
 public final class MultipleRule extends SingleNonTerminal implements OrderedNonTerminal {
 
@@ -15,42 +13,25 @@ public final class MultipleRule extends SingleNonTerminal implements OrderedNonT
 		super(rule, rule.minLength, MAX_VALUE);
 	}
 
-	/**
-	 * Returns true if the whole input can be fully and repeatedly matched by {@link #rule}.
-	 */
 	@Override
-	public boolean matches(String input) {
-		// Check Minlength
+	public int matchesStart(String input) {
+		// Check Min & Max Length
 		if (input.length() < minLength(input) || canNotMatchStart(rule, input))
-			return result(input, false, "min-max or wrong prefix");
-		// At least one match
-		if (input.isEmpty())
-			return result(input, rule.matches(input), "empty input");
-		// Find all matches
+			return result(input, -1, "Input too short | wrong prefix");
+
+		// Check if the input matches every rule in order
 		int start = 0;
-		nextRule:
-		while (start < input.length()) {
-			var snippet = input.substring(start);
-			if (rule instanceof Terminal t) {
-				var offset = t.matchesStart(snippet);
-				if (offset > 0) {
-					start += offset;
-					continue;
-				}
-			} else {
-				// Determine Min & Max Length
-				int max = rule.maxLength == MAX_VALUE ? input.length() : min(start + rule.maxLength(snippet), input.length());
-				int min = start + rule.minLength(snippet);
-				// Find the longest match
-				for (int end = max; end >= min; end--) {
-					if (rule.matches(input.substring(start, end))) {
-						start = end;
-						continue nextRule;
-					}
-				}
+		int matches = 0;
+		do {
+			var diff = rule.matchesStart(input.substring(start));
+			if (diff == -1) {
+				if (start == 0)
+					return result(input, -1, "Rule " + rule + " did not match");
+				break;
 			}
-			return result(input, false, "Rule " + rule + " did not match");
-		}
-		return result(input, true, "all rules matched");
+			start += diff;
+			matches++;
+		} while (start < input.length());
+		return result(input, start, "Rule matched " + matches + " times");
 	}
 }

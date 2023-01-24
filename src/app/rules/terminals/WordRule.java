@@ -29,9 +29,9 @@ public class WordRule extends Terminal {
 				if (foundTrailingSpace || match > maxLength)
 					return i;
 			} else // Char out of range
-				return match == 0 ? 0 : i;
+				return match == 0 ? -1 : i;
 		}
-		return match == 0 ? 0 : input.length();
+		return match == 0 ? -1 : input.length();
 	}
 
 }

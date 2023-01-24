@@ -1,6 +1,5 @@
 package app.rules.abstractions;
 
-import app.rules.Rule;
 import app.rules.nonterminals.AlterationRule;
 import app.rules.nonterminals.MultipleRule;
 import app.rules.nonterminals.SequenceRule;
@@ -23,5 +22,4 @@ public sealed interface OrderedNonTerminal permits SequenceRule, MultipleRule {
 			default -> false;
 		};
 	}
-
 }

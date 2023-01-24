@@ -1,5 +1,6 @@
 package app.rules;
 
+import app.rules.abstractions.Rule;
 import app.rules.nonterminals.*;
 import app.rules.terminals.LiteralRule;
 import app.rules.terminals.WordRule;
@@ -34,7 +35,18 @@ public interface Rules {
 	 * Pass 2 to n rules. This rule matches the first of them.
 	 */
 	static AlterationRule alt(Rule... rules) {
-		return new AlterationRule(rules);
+		boolean isOpt = false;
+		for(int i = 0; i < rules.length; i++) {
+			if(rules[i] instanceof OptionalRule optionalRule) {
+				isOpt = true;
+				rules[i] = optionalRule.rule;
+			}
+		}
+		return isOpt ? optAlt(rules) : new AlterationRule(false,rules);
+	}
+
+	static AlterationRule optAlt(Rule... rules) {
+		return new AlterationRule(true, rules);
 	}
 
 	/**
