@@ -1,5 +1,6 @@
 package app.rules;
 
+import app.rules.abstractions.Rule;
 import org.junit.jupiter.api.Test;
 
 import static app.rules.Rules.*;
@@ -9,15 +10,19 @@ public class ComplexRuleTests {
 
 	static Rule nr = word('0', '9');
 
-	static Rule op = alt("+", "-", "*", "/");
+	static Rule elem = alt(nr, lazy(ComplexRuleTests::list));
 
-	static Rule exp() {
-		return seq(nr, opt(op, alt(nr, lazy(() -> exp()))));
+	static Rule list() {
+		return seq(
+				lit("["),
+				opt(elem, rep(lit(","), elem)),
+				lit("]")
+		);
 	}
 
 	@Test
-	public void testExpression() {
-		assertTrue(exp().matches("10 + 5 / 10 * 4 - 3"));
+	public void testList() {
+		assertTrue(list().matches("[10, [20, 3, 4], [[], 2], 12]"));
 	}
 
 

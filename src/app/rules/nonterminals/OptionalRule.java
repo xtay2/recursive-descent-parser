@@ -1,18 +1,19 @@
 package app.rules.nonterminals;
 
-import app.rules.Rule;
+import app.rules.abstractions.Rule;
+import app.rules.abstractions.SingleNonTerminal;
 
-public class OptionalRule extends Rule {
-
-	private final Rule rule;
+public final class OptionalRule extends SingleNonTerminal {
 
 	public OptionalRule(Rule rule) {
-		this.rule = rule;
+		super(rule, 0);
 	}
 
-	/** Returns true if the whole input can be fully matched by {@link #rule} or if the input is empty. */
 	@Override
-	public boolean matches(String input) {
-		return log(rule, input, input.trim().isEmpty() || rule.matches(input));
+	public int matchesStart(String input) {
+		if (input.trim().isEmpty())
+			return result(input, input.length(), "Input is empty");
+		var res = rule.matchesStart(input);
+		return result(input, res > -1 ? res : 0, "Child matched");
 	}
 }

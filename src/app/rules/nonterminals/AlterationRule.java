@@ -1,25 +1,33 @@
 package app.rules.nonterminals;
 
-import app.rules.Rule;
+import app.rules.abstractions.MultiNonTerminal;
+import app.rules.abstractions.Rule;
 
-public class AlterationRule extends Rule {
+import static java.util.Arrays.stream;
 
-	private final Rule[] rules;
+public final class AlterationRule extends MultiNonTerminal {
 
-	public AlterationRule(Rule... rules) {
-		if (rules.length < 2)
-			throw new IllegalArgumentException("AlterationRule must contain at least two rules.");
-		this.rules = rules;
+	public AlterationRule(boolean optional, Rule... rules) {
+		super(
+				rules,
+				optional ? 0 : stream(rules).mapToInt(r -> r.minLength).min().orElse(0)
+		);
 	}
 
-	/** Returns true for the first rule in {@link #rules} that matches the input. */
 	@Override
-	public boolean matches(String input) {
-		for (Rule rule : rules) {
-			if (rule.matches(input))
-				return log(rules, input, true);
-		}
-		return log(rules, input, false);
-	}
+	public int matchesStart(String input) {
+		// Check Min Length
+		if (input.length() < minLength(input))
+			return result(input, -1, "Input is too short");
 
+		// Check if optional
+		if (isOptional() && input.trim().isEmpty())
+			return result(input, 0, "Input is empty");
+
+		// Find the longest rule which start matches
+		return stream(rules)
+				.mapToInt(r -> r.matchesStart(input))
+				.max()
+				.orElse(-1);
+	}
 }

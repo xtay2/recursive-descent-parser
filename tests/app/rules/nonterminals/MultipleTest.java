@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static app.rules.Rules.lit;
 import static app.rules.Rules.mult;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MultipleTest {
 
@@ -25,6 +24,19 @@ public class MultipleTest {
 		assertFalse(rule.matches("xyz"));
 		assertFalse(rule.matches("abc123"));
 		assertFalse(rule.matches("abcabc123"));
+	}
+
+	@Test
+	public void testStart() {
+		var rule = mult(lit("abc"));
+		assertEquals(3, rule.matchesStart("abc"));
+		assertEquals(6, rule.matchesStart("abcabc"));
+		assertEquals(9, rule.matchesStart("abcabcabc"));
+		assertEquals(13, rule.matchesStart(" abc abc abc "));
+		assertEquals(-1, rule.matchesStart(""));
+		assertEquals(-1, rule.matchesStart("xyz"));
+		assertEquals(3, rule.matchesStart("abc123"));
+		assertEquals(6, rule.matchesStart("abcabc123"));
 	}
 
 }

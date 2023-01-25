@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static app.rules.Rules.lit;
 import static app.rules.Rules.seq;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SequenceTest {
 
@@ -26,4 +25,15 @@ public class SequenceTest {
 		assertFalse(rule.matches(""));
 	}
 
+	@Test
+	public void testStart() {
+		var rule = seq(lit("abc"), lit("123"));
+		assertEquals(6, rule.matchesStart("abc123"));
+		assertEquals(7, rule.matchesStart("abc 123"));
+		assertEquals(9, rule.matchesStart(" abc 123 "));
+		assertEquals(-1, rule.matchesStart("abc"));
+		assertEquals(-1, rule.matchesStart("123"));
+		assertEquals(-1, rule.matchesStart("abcx"));
+		assertEquals(-1, rule.matchesStart(""));
+	}
 }

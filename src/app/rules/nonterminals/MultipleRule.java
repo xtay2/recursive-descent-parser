@@ -1,32 +1,33 @@
 package app.rules.nonterminals;
 
-import app.rules.Rule;
+import app.rules.abstractions.Rule;
+import app.rules.abstractions.SingleNonTerminal;
 
-public class MultipleRule extends Rule {
-
-	private final Rule rule;
+public final class MultipleRule extends SingleNonTerminal  {
 
 	public MultipleRule(Rule rule) {
-		this.rule = rule;
+		super(rule, rule.minLength);
 	}
 
-	/** Returns true if the whole input can be fully and repeatedly matched by {@link #rule}. */
 	@Override
-	public boolean matches(String input) {
-		// At least one match
-		if (input.isEmpty())
-			return rule.matches(input);
+	public int matchesStart(String input) {
+		// Check Min & Max Length
+		if (input.length() < minLength(input))
+			return result(input, -1, "Input too short | wrong prefix");
+
+		// Check if the input matches every rule in order
 		int start = 0;
-		nextRule:
-		while (start < input.length()) {
-			for (int end = input.length(); end >= start; end--) {
-				if (rule.matches(input.substring(start, end))) {
-					start = end;
-					continue nextRule;
-				}
+		int matches = 0;
+		do {
+			var diff = rule.matchesStart(input.substring(start));
+			if (diff == -1) {
+				if (start == 0)
+					return result(input, -1, "Rule " + rule + " did not match");
+				break;
 			}
-			return log(rule, input, false);
-		}
-		return log(rule, input, true);
+			start += diff;
+			matches++;
+		} while (start < input.length());
+		return result(input, start, "Rule matched " + matches + " times");
 	}
 }
