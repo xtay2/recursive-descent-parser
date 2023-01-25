@@ -6,7 +6,7 @@ import app.rules.abstractions.SingleNonTerminal;
 public final class OptionalRule extends SingleNonTerminal {
 
 	public OptionalRule(Rule rule) {
-		super(rule, 0, rule.maxLength);
+		super(rule, 0);
 	}
 
 	@Override

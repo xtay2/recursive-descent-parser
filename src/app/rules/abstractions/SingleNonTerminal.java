@@ -7,8 +7,8 @@ public abstract sealed class SingleNonTerminal extends Rule permits MultipleRule
 
 	public final Rule rule;
 
-	protected SingleNonTerminal(Rule rule, int minLength, int maxLength) {
-		super(minLength, maxLength);
+	protected SingleNonTerminal(Rule rule, int minLength) {
+		super(minLength);
 		this.rule = rule;
 	}
 

@@ -1,14 +1,16 @@
 package app.rules.terminals;
 
+import app.rules.abstractions.Rule;
+
 import static helper.base.StringHelper.occAfter;
 import static helper.base.StringHelper.occAtStart;
 
-public class LiteralRule extends Terminal {
+public class LiteralRule extends Rule {
 
 	private final String literal;
 
 	public LiteralRule(String literal) {
-		super(literal.length(), literal.length());
+		super(literal.length());
 		this.literal = literal;
 	}
 

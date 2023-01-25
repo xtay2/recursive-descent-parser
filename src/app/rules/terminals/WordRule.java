@@ -1,16 +1,20 @@
 package app.rules.terminals;
 
+import app.rules.abstractions.Rule;
+
 /**
  * A rule that matches 1-n characters in a range.
  */
-public class WordRule extends Terminal {
+public class WordRule extends Rule {
 
 	protected final char from, to;
+	private final int maxLength;
 
 	public WordRule(char from, char to, int maxLength) {
-		super(1, maxLength);
+		super(1);
 		this.from = from;
 		this.to = to;
+		this.maxLength = maxLength;
 	}
 
 	@Override

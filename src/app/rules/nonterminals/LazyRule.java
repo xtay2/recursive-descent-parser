@@ -6,14 +6,12 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import static java.lang.Integer.MAX_VALUE;
-
 public final class LazyRule extends Rule {
 
 	private final Supplier<Rule> rule;
 	private final Set<String> matchStack = new HashSet<>();
 	public LazyRule(Supplier<Rule> rule) {
-		super(0, MAX_VALUE);
+		super(0);
 		if (rule == null)
 			throw new IllegalArgumentException("LazyRule has to take a rule-supplier.");
 		this.rule = rule;

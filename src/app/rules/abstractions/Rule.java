@@ -2,10 +2,8 @@ package app.rules.abstractions;
 
 import helper.io.ANSI;
 
-import static helper.base.StringHelper.occ;
 import static helper.base.StringHelper.occAtStart;
 import static helper.io.ANSI.*;
-import static java.lang.Integer.MAX_VALUE;
 
 public abstract class Rule {
 
@@ -18,17 +16,12 @@ public abstract class Rule {
 	 * The minimum and maximum length of the input that this rule can match.
 	 * (Not including leading and trailing whitespaces.)
 	 */
-	public final int minLength, maxLength;
+	public final int minLength;
 
-	protected Rule(int minLength, int maxLength) {
+	protected Rule(int minLength) {
 		if (minLength < 0)
 			throw new IllegalArgumentException("minLength must be >= 0. Was: " + minLength);
-		if (maxLength < 0)
-			throw new IllegalArgumentException("maxLength must be >= 0. Was " + maxLength);
-		if (minLength > maxLength)
-			throw new IllegalArgumentException("minLength must be <= maxLength.");
 		this.minLength = minLength;
-		this.maxLength = maxLength;
 	}
 
 	/**
@@ -55,14 +48,6 @@ public abstract class Rule {
 		return minLength + occAtStart(' ', snippet);
 	}
 
-	/**
-	 * Returns the maximum length of the input that matches this rule.
-	 */
-	public int maxLength(String snippet) {
-		if (maxLength == MAX_VALUE)
-			return MAX_VALUE;
-		return maxLength + occ(" ", snippet);
-	}
 
 	/** Returns true if this rule can match empty/blank input. */
 	public final boolean isOptional() {
@@ -89,8 +74,6 @@ public abstract class Rule {
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName()
-				// Min and max length
-				+ "(" + minLength + ", " + (maxLength == MAX_VALUE ? "INF" : maxLength) + ")";
+		return getClass().getSimpleName();
 	}
 }
