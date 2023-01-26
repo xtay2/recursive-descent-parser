@@ -1,5 +1,8 @@
 package app.rules.abstractions;
 
+import app.tokenization.TokenFactory;
+import app.tokenization.MatchData;
+import app.tokenization.tokens.Token;
 import helper.io.ANSI;
 
 import static helper.base.StringHelper.occAtStart;
@@ -10,18 +13,20 @@ public abstract class Rule {
 	/**
 	 * If true, every rule posts debugging-info while matching.
 	 */
-	protected static final boolean LOG = true;
+	protected static final boolean LOG = false;
 
 	/**
 	 * The minimum and maximum length of the input that this rule can match.
 	 * (Not including leading and trailing whitespaces.)
 	 */
 	public final int minLength;
+	protected final TokenFactory tokenFactory;
 
-	protected Rule(int minLength) {
+	protected Rule(int minLength, TokenFactory tokenFactory) {
 		if (minLength < 0)
 			throw new IllegalArgumentException("minLength must be >= 0. Was: " + minLength);
 		this.minLength = minLength;
+		this.tokenFactory = tokenFactory;
 	}
 
 	/**
@@ -31,14 +36,26 @@ public abstract class Rule {
 	 * - If the input is empty and this rule is optional, returns 0.
 	 * - If the input is empty or doesn't match and this rule is not optional, returns -1.
 	 */
-	public abstract int matchesStart(String input);
+	public abstract MatchData matchesStart(String input);
 
 	/**
 	 * Tells whether the given input matches this rule.
 	 * Leading and trailing whitespaces are discarded.
 	 */
 	public final boolean matches(String input) {
-		return matchesStart(input) == input.length();
+		return matchesStart(input).length() == input.length();
+	}
+
+	/**
+	 * Tells whether the given input matches this rule.
+	 * Leading and trailing whitespaces are discarded.
+	 */
+	public final Token tokenize(String input) {
+		var res = matchesStart(input);
+		// if everything was matched
+		return res.length() == input.length()
+				? res.token()
+				: Token.NO_MATCH;
 	}
 
 	/**
@@ -59,7 +76,8 @@ public abstract class Rule {
 	/**
 	 * Returns the result and maybe logs it.
 	 */
-	protected int result(String input, int length, String reason) {
+	protected MatchData result(String input, int length, String reason, Token... tokens) {
+		assert minLength == 0 || tokens.length > 0;
 		if (LOG) {
 			System.out.println(this + " "
 					+ (length > -1
@@ -69,7 +87,7 @@ public abstract class Rule {
 					+ " \"" + input + "\""
 					+ color(ANSI.YELLOW, " (" + reason + ")"));
 		}
-		return length;
+		return new MatchData(length, tokenFactory.build(tokens));
 	}
 
 	@Override

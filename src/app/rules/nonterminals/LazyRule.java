@@ -1,6 +1,8 @@
 package app.rules.nonterminals;
 
+import app.tokenization.TokenFactory;
 import app.rules.abstractions.Rule;
+import app.tokenization.MatchData;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,23 +13,23 @@ public final class LazyRule extends Rule {
 	private final Supplier<Rule> rule;
 	private final Set<String> matchStack = new HashSet<>();
 	public LazyRule(Supplier<Rule> rule) {
-		super(0);
+		super(0, TokenFactory.EXTENSION);
 		if (rule == null)
 			throw new IllegalArgumentException("LazyRule has to take a rule-supplier.");
 		this.rule = rule;
 	}
 
 	@Override
-	public int matchesStart(String input) {
+	public MatchData matchesStart(String input) {
 		// Avoid infinite recursion
 		if (matchStack.contains(input))
-			return -1;
+			return MatchData.NO_MATCH;
 
 		// Match Child
 		matchStack.add(input);
-		int res = rule.get().matchesStart(input);
+		var res = rule.get().matchesStart(input);
 		matchStack.remove(input);
 
-		return result(input, res, "Child matched");
+		return res;
 	}
 }
