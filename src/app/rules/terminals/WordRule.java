@@ -1,29 +1,23 @@
 package app.rules.terminals;
 
-import app.rules.abstractions.Rule;
-import app.tokenization.MatchData;
-import app.tokenization.TokenFactory;
-import app.tokenization.tokens.Token;
-import app.tokenization.tokens.WordToken;
+import app.rules.abstractions.Terminal;
+import app.tokenization.tokens.TerminalToken;
 
 /**
  * A rule that matches 1-n characters in a range.
  * <p>
  * - The range is inclusive, so a rule with from 'a' and to 'z' will also match a and z.
- * - The MatchData returned by {@link #matchesStart(String)}
- * will contain a {@link WordToken} if the match was successful.
+ * - The Token returned by {@link #tokenizeWhole(String)}
+ * will contain a {@link TerminalToken} if the match was successful.
  */
-public class WordRule extends Rule {
+public class WordRule extends Terminal {
 
 	protected final char from, to;
-	private final int maxLength;
-
 
 	public WordRule(char from, char to, int maxLength) {
-		super(1, TokenFactory.EXTENSION);
+		super(1, maxLength);
 		this.from = from;
 		this.to = to;
-		this.maxLength = maxLength;
 	}
 
 	public WordRule(char from, char to) {
@@ -31,7 +25,19 @@ public class WordRule extends Rule {
 	}
 
 	@Override
-	public final MatchData matchesStart(String input) {
+	public int skipToFirstMatch(String input) {
+		int idx = 0;
+		while (idx < input.length()) {
+			char c = input.charAt(idx);
+			if (c >= from && c <= to)
+				return idx;
+			idx++;
+		}
+		return idx;
+	}
+
+	@Override
+	public int matchStart(String input) {
 		int match = 0;
 		boolean foundTrailingSpace = false;
 		for (int i = 0; i < input.length(); i++) {
@@ -44,21 +50,10 @@ public class WordRule extends Rule {
 			if (c >= from && c <= to) {
 				match++;
 				if (foundTrailingSpace || match > maxLength)
-					return result(input, i, "Trailing space or too many chars");
+					return i;
 			} else // Char out of range
-				return match == 0
-						? result(input, -1, "Next char out of range")
-						: result(input, i, "Next char out of range");
+				return match == 0 ? -1 : i;
 		}
-		return match == 0
-				? result(input, -1, "Input too short | wrong prefix")
-				: result(input, input.length(), "Input matches");
+		return match == 0 ? -1 : input.length();
 	}
-
-	private MatchData result(String input, int index, String message) {
-		return index == -1
-				? result(input, index, message, Token.NO_MATCH)
-				: result(input, index, message, new WordToken(input.substring(0, index)));
-	}
-
 }

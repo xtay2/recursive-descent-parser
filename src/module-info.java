@@ -1,4 +1,4 @@
-module RecursiveDescentParserYoutube {
+module recursive.descent.parser {
 
 	// App
 	exports app.rules.nonterminals;
@@ -11,10 +11,9 @@ module RecursiveDescentParserYoutube {
 	exports tests.rules.nonterminals;
 	exports tests.rules.terminals;
 	exports tests.rules;
-	exports tests.tokens;
 
 	// Requirements
-	requires helper;
 	requires junit;
+	requires helper;
 
 }

@@ -24,14 +24,14 @@ public class WordTest {
 
 	@Test
 	public void matchesStart() {
-		assertEquals(-1, word.matchesStart("0").length());
-		assertEquals(2, word.matchesStart("a a").length());
-		assertEquals(3, word.matchesStart("aaa").length());
-		assertEquals(-1, word.matchesStart("   ").length());
-		assertEquals(4, word.matchesStart("aaa ").length());
-		assertEquals(5, word.matchesStart(" aaa ").length());
-		assertEquals(5, word.matchesStart(" aaa 3").length());
-		assertEquals(4, word.matchesStart(" aaa0aaa").length());
+		assertEquals(-1, word.matchStart("0"));
+		assertEquals(2, word.matchStart("a a"));
+		assertEquals(3, word.matchStart("aaa"));
+		assertEquals(-1, word.matchStart("   "));
+		assertEquals(4, word.matchStart("aaa "));
+		assertEquals(5, word.matchStart(" aaa "));
+		assertEquals(5, word.matchStart(" aaa 3"));
+		assertEquals(4, word.matchStart(" aaa0aaa"));
 	}
 
 

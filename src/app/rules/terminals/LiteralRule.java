@@ -1,48 +1,44 @@
 package app.rules.terminals;
 
-import app.rules.abstractions.Rule;
-import app.tokenization.TokenFactory;
-import app.tokenization.tokens.LiteralToken;
-import app.tokenization.MatchData;
+import app.rules.abstractions.Terminal;
+import app.tokenization.tokens.TerminalToken;
 
-import static app.tokenization.tokens.Token.NO_MATCH;
 import static helper.base.StringHelper.occAfter;
 import static helper.base.StringHelper.occAtStart;
 
 /**
  * A rule that matches a literal.
  * <p>
- * - The MatchData returned by {@link #matchesStart(String)} will contain
- * the {@link LiteralToken} passed in the constructor, if the match was successful.
+ * - The Token returned by {@link #tokenizeWhole(String)} will contain
+ * the {@link TerminalToken} passed in the constructor, if the match was successful.
  */
-public class LiteralRule extends Rule {
+public class LiteralRule extends Terminal {
 
-	private final LiteralToken token;
+	private final String literal;
 
 	public LiteralRule(String literal) {
-		this(LiteralToken.instance(literal));
+		super(literal.length(), literal.length());
+		this.literal = literal;
 	}
-
-	public LiteralRule(LiteralToken token) {
-		super(token.literal().length(), TokenFactory.EXTENSION);
-		this.token = token;
-	}
-
 
 	@Override
-	public MatchData matchesStart(String input) {
+	public int skipToFirstMatch(String input) {
+		int matchStart = input.indexOf(literal);
+		return matchStart == -1 ? input.length() : matchStart;
+	}
+
+	@Override
+	public int matchStart(String input) {
 		int lastSpaceIdx = occAtStart(' ', input);
-
-		boolean inputTooSmall = input.length() - lastSpaceIdx < token.literal().length();
-
-		if (inputTooSmall || !input.substring(lastSpaceIdx, lastSpaceIdx + token.literal().length()).equals(token.literal()))
-			return result(input, -1, "Literal does not match", NO_MATCH);
-		int len = lastSpaceIdx + token.literal().length();
-		return result(input, len + occAfter(' ', len, input), "Literal matches", token);
+		boolean inputTooSmall = input.length() - lastSpaceIdx < literal.length();
+		if (inputTooSmall || !input.substring(lastSpaceIdx, lastSpaceIdx + literal.length()).equals(literal))
+			return -1;
+		int len = lastSpaceIdx + literal.length();
+		return len + occAfter(' ', len, input);
 	}
 
 	@Override
 	public String toString() {
-		return "\"" + token.literal() + "\"";
+		return "\"" + literal + "\"";
 	}
 }

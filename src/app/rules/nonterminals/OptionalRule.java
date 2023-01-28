@@ -2,23 +2,24 @@ package app.rules.nonterminals;
 
 import app.rules.abstractions.Rule;
 import app.rules.abstractions.SingleNonTerminal;
-import app.tokenization.TokenFactory;
-import app.tokenization.MatchData;
 import app.tokenization.tokens.Token;
 
 public final class OptionalRule extends SingleNonTerminal {
 
 	public OptionalRule(Rule rule) {
-		super(rule, 0, TokenFactory.EXTENSION);
+		super(rule, 0, rule.maxLength);
 	}
 
 	@Override
-	public MatchData matchesStart(String input) {
+	public int matchStart(String input) {
 		if (input.trim().isEmpty())
-			return result(input, input.length(), "Input is empty", Token.EMPTY);
-		var res = rule.matchesStart(input);
-		return res.fails()
-				? result(input, 0, "Child did not match", Token.EMPTY)
-				: result(input, res.length(), "Child matched", res.token());
+			return 0;
+		int res = rule.matchStart(input);
+		return res == -1 ? 0 : res;
+	}
+
+	@Override
+	public Token tokenizeWhole(String input) {
+		return rule.tokenizeWhole(input);
 	}
 }

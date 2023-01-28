@@ -2,37 +2,51 @@ package app.rules.nonterminals;
 
 import app.rules.abstractions.Rule;
 import app.rules.abstractions.SingleNonTerminal;
-import app.tokenization.TokenFactory;
-import app.tokenization.MatchData;
 import app.tokenization.tokens.Token;
+import app.tokenization.tokens.TokenSection;
 
 import java.util.ArrayList;
 
+import static java.lang.Math.min;
+
 public final class MultipleRule extends SingleNonTerminal {
 
-	public MultipleRule(TokenFactory tokenFactory, Rule rule) {
-		super(rule, rule.minLength, tokenFactory);
+	public MultipleRule(Rule rule) {
+		super(rule, rule.minLength, Integer.MAX_VALUE);
 	}
 
 	@Override
-	public MatchData matchesStart(String input) {
+	public int matchStart(String input) {
 		// Check Min & Max Length
 		if (input.length() < minLength(input))
-			return result(input, -1, "Input too short", Token.NO_MATCH);
+			return -1;
+		int start = 0;
+		while (start < input.length()) {
+			int diff = rule.matchStart(input.substring(start));
+			if (diff == -1)
+				return start == 0 ? -1 : start;
+			start += diff;
+		}
+		return start == 0 ? -1 : start;
+	}
 
-		// Check if the input matches every rule in order
-		var start = 0;
-		var matches = new ArrayList<Token>();
-		do {
-			var diff = rule.matchesStart(input.substring(start));
-			if (diff.fails()) {
-				if (start == 0)
-					return result(input, -1, "Rule " + rule + " did not match", Token.NO_MATCH);
-				break;
-			}
-			start += diff.length();
-			matches.add(diff.token());
-		} while (start < input.length());
-		return result(input, start, "Rule matched " + matches.size() + " times", matches.toArray(Token[]::new));
+	@Override
+	public Token tokenizeWhole(String input) {
+		var children = new ArrayList<Token>();
+		int start = 0;
+		while (start < input.length()) {
+			var snippet = input.substring(start);
+			int matchLength = rule.matchStart(snippet);
+			// Couldn't get matched, identify error
+			if (matchLength == -1)
+				matchLength = rule.skipToFirstMatch(snippet);
+			// There is no next match, rest is error
+			if (matchLength == 0)
+				matchLength = input.length();
+			// Add token to the list of children
+			children.add(rule.tokenizeWhole(snippet.substring(0, min(snippet.length(), matchLength))));
+			start += matchLength;
+		}
+		return new TokenSection( children.toArray(Token[]::new));
 	}
 }

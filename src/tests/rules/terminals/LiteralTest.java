@@ -23,13 +23,13 @@ public class LiteralTest {
 
 	@Test
 	public void matchesStart() {
-		assertEquals(-1, lit.matchesStart("0").length());
-		assertEquals(4, lit.matchesStart("abc abc").length());
-		assertEquals(3, lit.matchesStart("abc").length());
-		assertEquals(-1, lit.matchesStart("   ").length());
-		assertEquals(4, lit.matchesStart("abc ").length());
-		assertEquals(5, lit.matchesStart(" abc ").length());
-		assertEquals(5, lit.matchesStart(" abc 3").length());
-		assertEquals(4, lit.matchesStart(" abc0abc").length());
+		assertEquals(-1, lit.matchStart("0"));
+		assertEquals(4, lit.matchStart("abc abc"));
+		assertEquals(3, lit.matchStart("abc"));
+		assertEquals(-1, lit.matchStart("   "));
+		assertEquals(4, lit.matchStart("abc "));
+		assertEquals(5, lit.matchStart(" abc "));
+		assertEquals(5, lit.matchStart(" abc 3"));
+		assertEquals(4, lit.matchStart(" abc0abc"));
 	}
 }

@@ -1,16 +1,25 @@
 package app.tokenization.tokens;
 
-public interface Token {
+import helper.util.CollectionHelper;
 
-	// If a non-Optional rule fails to match, it returns this token
-	Token NO_MATCH = null;
+import java.util.Arrays;
 
-	// If an Optional rule fails to match, it returns this token
-	Token EMPTY = new Token(){
-		@Override
-		public String toString() {
-			return "";
-		}
-	};
+public abstract class Token {
 
+	/** The number of errors in this token. */
+	public final int errors;
+
+	public final Token[] children;
+
+	public Token(Token... children) {
+		this.errors = this instanceof ErroneousTerminal ?
+				1 // This is an error-token
+				: Arrays.stream(children).mapToInt(t -> t == null ? 0 : t.errors).sum();
+		this.children = children;
+	}
+
+	@Override
+	public String toString() {
+		return CollectionHelper.mapJoin(children, Token::toString, "");
+	}
 }

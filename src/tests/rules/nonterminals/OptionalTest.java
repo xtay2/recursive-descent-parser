@@ -27,15 +27,15 @@ public class OptionalTest {
 
 	@Test
 	public void testStart() {
-		assertEquals(0, opt.matchesStart("").length());
-		assertEquals(0, opt.matchesStart("x").length());
-		assertEquals(4, opt.matchesStart("abc abc").length());
-		assertEquals(3, opt.matchesStart("abc").length());
-		assertEquals(3, opt.matchesStart("   ").length());
-		assertEquals(4, opt.matchesStart("abc ").length());
-		assertEquals(5, opt.matchesStart(" abc ").length());
-		assertEquals(5, opt.matchesStart(" abc 3").length());
-		assertEquals(4, opt.matchesStart(" abc0abc").length());
+		assertEquals(0, opt.matchStart(""));
+		assertEquals(0, opt.matchStart("x"));
+		assertEquals(4, opt.matchStart("abc abc"));
+		assertEquals(3, opt.matchStart("abc"));
+		assertEquals(0, opt.matchStart("   "));
+		assertEquals(4, opt.matchStart("abc "));
+		assertEquals(5, opt.matchStart(" abc "));
+		assertEquals(5, opt.matchStart(" abc 3"));
+		assertEquals(4, opt.matchStart(" abc0abc"));
 	}
 
 }

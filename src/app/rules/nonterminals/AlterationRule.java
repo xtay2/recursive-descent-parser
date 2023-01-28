@@ -1,14 +1,9 @@
 package app.rules.nonterminals;
 
-import app.tokenization.TokenFactory;
 import app.rules.abstractions.MultiNonTerminal;
 import app.rules.abstractions.Rule;
-import app.tokenization.MatchData;
 import app.tokenization.tokens.Token;
 
-import java.util.Comparator;
-
-import static app.tokenization.MatchData.NO_MATCH;
 import static java.util.Arrays.stream;
 
 public final class AlterationRule extends MultiNonTerminal {
@@ -17,25 +12,42 @@ public final class AlterationRule extends MultiNonTerminal {
 		super(
 				rules,
 				optional ? 0 : stream(rules).mapToInt(r -> r.minLength).min().orElse(0),
-				TokenFactory.EXTENSION
-		);
+				stream(rules).mapToInt(r -> r.maxLength).max().orElse(Integer.MAX_VALUE)
+				);
 	}
 
 	@Override
-	public MatchData matchesStart(String input) {
+	public int matchStart(String input) {
 		// Check Min Length
 		if (input.length() < minLength(input))
-			return result(input, -1, "Input is too short", Token.NO_MATCH);
+			return -1;
 
 		// Check if optional
 		if (isOptional() && input.trim().isEmpty())
-			return result(input, 0, "Input is empty", Token.EMPTY);
+			return 0;
 
 		// Find the longest rule which start matches
-		var res = stream(rules)
-				.map(r -> r.matchesStart(input))
-				.max(Comparator.comparingInt(MatchData::length))
-				.orElse(NO_MATCH);
-		return result(input, res.length(), "Longest rule matched.", res.token());
+		return stream(rules)
+				.mapToInt(r -> r.matchStart(input))
+				.max()
+				.orElseThrow(() -> new AssertionError("Child-rules cannot be empty"));
+	}
+
+	@Override
+	public Token tokenizeWhole(String input) {
+		// Find the first rule that matches the whole input.
+		for (Rule rule : rules) {
+			if (rule.matches(input))
+				return rule.tokenizeWhole(input);
+		}
+		// Find the token that has the least errors.
+		Token bestToken = null;
+		int leastErrors = Integer.MAX_VALUE;
+		for (Rule rule : rules) {
+			Token token = rule.tokenizeWhole(input);
+			if (token.errors < leastErrors)
+				bestToken = token;
+		}
+		return bestToken;
 	}
 }

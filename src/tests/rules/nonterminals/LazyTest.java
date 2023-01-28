@@ -7,7 +7,6 @@ import app.rules.nonterminals.OptionalRule;
 import app.rules.nonterminals.SequenceRule;
 import app.rules.terminals.LiteralRule;
 import org.junit.Test;
-import tests.tokens.TestTokens;
 
 import static org.junit.Assert.*;
 
@@ -15,9 +14,7 @@ public class LazyTest {
 
 	static Rule rule() {
 		return new MultipleRule(
-				TestTokens.MultipleToken::new,
 				new SequenceRule(
-					TestTokens.SequenceToken::new,
 						new LiteralRule("("),
 						new OptionalRule(new LazyRule(LazyTest::rule)),
 						new LiteralRule(")")
@@ -45,10 +42,10 @@ public class LazyTest {
 
 	@Test
 	public void testStart() {
-		assertEquals(2, rule().matchesStart("())").length());
-		assertEquals(2, rule().matchesStart("()((").length());
-		assertEquals(4, rule().matchesStart("()()").length());
-		assertEquals(8, rule().matchesStart("(()(()))").length());
-		assertEquals(14, rule().matchesStart("(()((())())())").length());
+		assertEquals(2, rule().matchStart("())"));
+		assertEquals(2, rule().matchStart("()(("));
+		assertEquals(4, rule().matchStart("()()"));
+		assertEquals(8, rule().matchStart("(()(()))"));
+		assertEquals(14, rule().matchStart("(()((())())())"));
 	}
 }
