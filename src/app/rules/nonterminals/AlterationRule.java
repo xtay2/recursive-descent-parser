@@ -3,6 +3,7 @@ package app.rules.nonterminals;
 import app.rules.abstractions.MultiNonTerminal;
 import app.rules.abstractions.Rule;
 import app.tokenization.tokens.Token;
+import helper.util.CollectionHelper;
 
 import static java.util.Arrays.stream;
 
@@ -23,7 +24,7 @@ public final class AlterationRule extends MultiNonTerminal {
 			return -1;
 
 		// Check if optional
-		if (isOptional() && input.trim().isEmpty())
+		if (isOptional() && input.replaceFirst(" ", "").isEmpty())
 			return 0;
 
 		// Find the longest rule which start matches
@@ -48,6 +49,12 @@ public final class AlterationRule extends MultiNonTerminal {
 			if (token.errors < leastErrors)
 				bestToken = token;
 		}
+		assert bestToken != null;
 		return bestToken;
+	}
+
+	@Override
+	public String toString() {
+		return "(" + CollectionHelper.mapJoin(rules,Rule::toString, " | ") + ")";
 	}
 }

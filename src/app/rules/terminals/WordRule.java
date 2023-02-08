@@ -56,4 +56,9 @@ public class WordRule extends Terminal {
 		}
 		return match == 0 ? -1 : input.length();
 	}
+
+	@Override
+	public String toString() {
+		return "[" + from + "-" + to + "]+";
+	}
 }

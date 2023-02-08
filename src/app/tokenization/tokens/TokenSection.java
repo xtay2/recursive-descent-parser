@@ -1,9 +1,11 @@
 package app.tokenization.tokens;
 
+import app.rules.abstractions.Rule;
 import helper.util.ArrayHelper;
 import helper.util.CollectionHelper;
 
 import java.util.Iterator;
+import java.util.Set;
 
 /**
  * A token that contains multiple other tokens.
@@ -14,14 +16,8 @@ import java.util.Iterator;
  */
 public class TokenSection extends Token implements Iterable<Token> {
 
-	public final Token[] children;
-
-	/**
-	 * Creates a new token section and removes all null elements from the children array.
-	 */
-	public TokenSection(Token[] children) {
-		super(children);
-		this.children = children;
+	public TokenSection(Rule rule, Token[] children) {
+		super(rule, children);
 	}
 
 	@Override
@@ -30,8 +26,22 @@ public class TokenSection extends Token implements Iterable<Token> {
 	}
 
 
+	/** Returns true if the passed token is contained in the children. */
+	public boolean contains(Token token) {
+		return ArrayHelper.contains(children, token);
+	}
+
+	@Override
+	public String debugStruct(int indent) {
+		var i = "\t".repeat(indent);
+		return i + rule + " {\n" +
+				CollectionHelper.mapJoin(children, id -> id.debugStruct(indent + 1), ",\n") + "\n" +
+				i + "}";
+	}
+
 	@Override
 	public String toString() {
-		return CollectionHelper.mapJoin(children, Token::toString, "");
+		return CollectionHelper.mapJoin(children, Token::toString, " ");
 	}
+
 }

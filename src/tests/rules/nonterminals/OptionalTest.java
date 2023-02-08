@@ -38,4 +38,12 @@ public class OptionalTest {
 		assertEquals(4, opt.matchStart(" abc0abc"));
 	}
 
+	@Test
+	public void testFirstMatch() {
+		assertEquals(0, opt.skipToFirstMatch("abc"));
+		assertEquals(0, opt.skipToFirstMatch(" abc "));
+		assertEquals(1, opt.skipToFirstMatch("x abc"));
+		assertEquals(2, opt.skipToFirstMatch(" x abc "));
+	}
+
 }

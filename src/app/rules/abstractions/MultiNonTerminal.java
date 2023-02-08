@@ -2,12 +2,15 @@ package app.rules.abstractions;
 
 import app.rules.nonterminals.AlterationRule;
 import app.rules.nonterminals.SequenceRule;
+import app.rules.nonterminals.UnorderedRule;
+
+import static java.lang.Integer.MAX_VALUE;
 
 /**
  * A non-terminal, that consists of multiple other rules.
  */
 public abstract sealed class MultiNonTerminal extends Rule
-		permits AlterationRule, SequenceRule {
+		permits AlterationRule, SequenceRule, UnorderedRule {
 
 	protected final Rule[] rules;
 
@@ -16,5 +19,24 @@ public abstract sealed class MultiNonTerminal extends Rule
 		if (rules.length < 2)
 			throw new IllegalArgumentException(this + " must contain at least two rules.");
 		this.rules = rules;
+	}
+
+	// Helpers
+
+	protected static int calcMinSeqLen(Rule[] rules) {
+		int cnt = 0;
+		for (var rule : rules)
+			cnt += rule.minLength;
+		return cnt;
+	}
+
+	protected static int calcMaxSeqLen(Rule[] rules) {
+		int cnt = 0;
+		for (var rule : rules) {
+			if (rule.maxLength == MAX_VALUE)
+				return MAX_VALUE;
+			cnt += rule.minLength;
+		}
+		return cnt;
 	}
 }

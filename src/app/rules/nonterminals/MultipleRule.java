@@ -47,6 +47,12 @@ public final class MultipleRule extends SingleNonTerminal {
 			children.add(rule.tokenizeWhole(snippet.substring(0, min(snippet.length(), matchLength))));
 			start += matchLength;
 		}
-		return new TokenSection( children.toArray(Token[]::new));
+		assert start == input.length();
+		return new TokenSection( this,children.toArray(Token[]::new));
+	}
+
+	@Override
+	public String toString() {
+		return rule + "*";
 	}
 }

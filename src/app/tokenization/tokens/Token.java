@@ -1,5 +1,6 @@
 package app.tokenization.tokens;
 
+import app.rules.abstractions.Rule;
 import helper.util.CollectionHelper;
 
 import java.util.Arrays;
@@ -11,15 +12,18 @@ public abstract class Token {
 
 	public final Token[] children;
 
-	public Token(Token... children) {
+	public final Rule rule;
+
+	public Token(Rule rule, Token... children) {
+		this.rule = rule;
 		this.errors = this instanceof ErroneousTerminal ?
 				1 // This is an error-token
-				: Arrays.stream(children).mapToInt(t -> t == null ? 0 : t.errors).sum();
+				: Arrays.stream(children).mapToInt(t -> t.errors).sum();
 		this.children = children;
 	}
 
+	public abstract String debugStruct(int indent);
+
 	@Override
-	public String toString() {
-		return CollectionHelper.mapJoin(children, Token::toString, "");
-	}
+	public abstract String toString();
 }

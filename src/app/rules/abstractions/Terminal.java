@@ -11,10 +11,10 @@ public abstract class Terminal extends Rule {
 	}
 
 	@Override
-	public final Token tokenizeWhole(String input) {
+	public Token tokenizeWhole(String input) {
 		if (matches(input))
-			return new TerminalToken(input);
-		return new ErroneousTerminal(input);
+			return new TerminalToken(this, input);
+		return new ErroneousTerminal(this,input);
 	}
 
 }

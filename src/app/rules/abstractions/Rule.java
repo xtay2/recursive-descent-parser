@@ -32,7 +32,7 @@ public abstract class Rule {
 	 */
 	public int skipToFirstMatch(String input) {
 		int end = min(input.length(), maxLength);
-		for (int i = 1; i < end; i++) {
+		for (int i = 0; i < end; i++) {
 			if (matchStart(input.substring(i)) > 0)
 				return i;
 		}
@@ -82,9 +82,7 @@ public abstract class Rule {
 	public final boolean isOptional() {
 		return minLength == 0;
 	}
-
+	
 	@Override
-	public String toString() {
-		return getClass().getSimpleName();
-	}
+	public abstract String toString();
 }

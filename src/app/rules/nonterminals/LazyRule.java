@@ -37,12 +37,17 @@ public final class LazyRule extends Rule {
 	public Token tokenizeWhole(String input) {
 		// Avoid infinite recursion
 		if (matchStack.contains(input))
-			return new ErroneousTerminal(input);
+			return new ErroneousTerminal(this, input);
 
 		// Match Child
 		matchStack.add(input);
 		var res = rule.get().tokenizeWhole(input);
 		matchStack.remove(input);
 		return res;
+	}
+
+	@Override
+	public String toString() {
+		return "lazy{...}";
 	}
 }
