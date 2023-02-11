@@ -1,16 +1,17 @@
 module recursive.descent.parser {
 
 	// App
-	exports app.rules.nonterminals;
-	exports app.rules.terminals;
-	exports app.rules.abstractions;
-	exports app.tokenization;
-	exports app.tokenization.tokens;
+	exports parser.app.rules.nonterminals;
+	exports parser.app.rules.terminals;
+	exports parser.app.rules.abstractions;
+	exports parser.app.tokens.collection;
+	exports parser.app.tokens.monads;
+	exports parser.app.tokens;
 
 	// Tests
 	exports tests.rules.nonterminals;
 	exports tests.rules.terminals;
-	exports tests.rules;
+
 
 	// Requirements
 	requires junit;

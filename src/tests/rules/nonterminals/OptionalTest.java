@@ -1,49 +1,45 @@
 package tests.rules.nonterminals;
 
-import app.rules.nonterminals.OptionalRule;
-import app.rules.terminals.LiteralRule;
+import parser.app.rules.abstractions.Rule;
+import parser.app.rules.nonterminals.Optional;
+import parser.app.rules.terminals.Literal;
+import parser.app.tokens.monads.TerminalToken;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class OptionalTest {
 
-	static final OptionalRule opt = new OptionalRule(
-			new LiteralRule("abc")
-	);
+	Rule rule = new Optional(new Literal("abc"));
 
 	@Test
-	public void testMatches() {
-		assertTrue(opt.matches("abc"));
-		assertTrue(opt.matches(" abc "));
-		assertTrue(opt.matches(""));
+	public void tokenizeTest() {
+		var m1 = rule.tokenize("   ");
+		assertTrue(m1 instanceof TerminalToken);
+		assertEquals("", m1.section());
+
+		var m2 = rule.tokenize("abc");
+		assertTrue(m2 instanceof TerminalToken);
+		assertEquals("abc", m2.section());
 	}
 
 	@Test
-	public void testFails() {
-		assertFalse(opt.matches("xyz"));
-		assertFalse(opt.matches("abcabc"));
+	public void matchesTest() {
+		assertTrue(rule.matches("   "));
+		assertTrue(rule.matches("abc"));
 	}
 
 	@Test
-	public void testStart() {
-		assertEquals(0, opt.matchStart(""));
-		assertEquals(0, opt.matchStart("x"));
-		assertEquals(4, opt.matchStart("abc abc"));
-		assertEquals(3, opt.matchStart("abc"));
-		assertEquals(0, opt.matchStart("   "));
-		assertEquals(4, opt.matchStart("abc "));
-		assertEquals(5, opt.matchStart(" abc "));
-		assertEquals(5, opt.matchStart(" abc 3"));
-		assertEquals(4, opt.matchStart(" abc0abc"));
+	public void maxMatchLengthTest() {
+		assertEquals(3, rule.maxMatchLength("   "));
+		assertEquals(3, rule.maxMatchLength("abc"));
 	}
 
 	@Test
-	public void testFirstMatch() {
-		assertEquals(0, opt.skipToFirstMatch("abc"));
-		assertEquals(0, opt.skipToFirstMatch(" abc "));
-		assertEquals(1, opt.skipToFirstMatch("x abc"));
-		assertEquals(2, opt.skipToFirstMatch(" x abc "));
+	public void firstMatchTest() {
+		assertEquals(0, rule.firstMatch("   "));
+		assertEquals(0, rule.firstMatch("abc"));
 	}
 
 }

@@ -1,58 +1,95 @@
 package tests.rules.nonterminals;
 
-import app.rules.nonterminals.AlterationRule;
-import app.rules.terminals.LiteralRule;
-import app.tokenization.tokens.ErroneousTerminal;
-import app.tokenization.tokens.TerminalToken;
-import app.tokenization.tokens.Token;
+import parser.app.rules.abstractions.Rule;
+import parser.app.rules.nonterminals.Alteration;
+import parser.app.tokens.monads.ErrorToken;
+import parser.app.tokens.monads.TerminalToken;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class AlterationTest {
 
-	static final LiteralRule lit1 = new LiteralRule("abc");
-	static final LiteralRule lit2 = new LiteralRule("abcd");
-	static final AlterationRule alt = new AlterationRule(false, lit1, lit2);
+	Rule optRule = new Alteration(true, "abc", "12345");
+	Rule rule = new Alteration(false, "abc", "12345");
 
 	@Test
-	public void testMatches() {
-		assertTrue(alt.matches("abc"));
-		assertTrue(alt.matches("abcd"));
-		assertTrue(alt.matches(" abc "));
-		assertTrue(alt.matches(" abcd "));
+	public void tokenizeTest() {
+		// Matches
+		var m1 = rule.tokenize(" abc ");
+		assertTrue(m1 instanceof TerminalToken);
+		assertEquals("abc", m1.section());
 
-		Token t = alt.tokenizeWhole("abc");
-		assertTrue(t instanceof TerminalToken);
-		assertFalse(t instanceof ErroneousTerminal);
-		TerminalToken tt = (TerminalToken) t;
-		assertEquals("abc", tt.value);
-		assertEquals(0, tt.errors);
+		var m2 = rule.tokenize(" 12345 ");
+		assertTrue(m2 instanceof TerminalToken);
+		assertEquals("12345", m2.section());
+
+		var m3 = optRule.tokenize("   ");
+		assertTrue(m3 instanceof TerminalToken);
+		assertEquals("", m3.section());
+
+		// Fails
+		var f1 = rule.tokenize("");
+		assertTrue(f1 instanceof ErrorToken);
+		assertEquals("", f1.section());
+
+		var f2 = rule.tokenize("a");
+		assertTrue(f2 instanceof ErrorToken);
+		assertEquals("a", f2.section());
+
+		var f3 = rule.tokenize("abc 12345");
+		assertTrue(f3 instanceof ErrorToken);
+		assertEquals("abc 12345", f3.section());
 	}
 
 	@Test
-	public void testFails() {
-		assertFalse(alt.matches("ab"));
-		assertFalse(alt.matches("abcde"));
-		assertFalse(alt.matches(" ab "));
-
-		Token t = alt.tokenizeWhole("abcde");
-		assertTrue(t instanceof ErroneousTerminal);
-		TerminalToken tt = (ErroneousTerminal) t;
-		assertEquals("abcde", tt.value);
-		assertEquals(1, tt.errors);
+	public void matchesTest() {
+		// Matches
+		assertTrue(optRule.matches("   "));
+		assertTrue(rule.matches("abc"));
+		assertTrue(rule.matches("abc "));
+		assertTrue(rule.matches(" abc"));
+		assertTrue(rule.matches(" abc "));
+		assertTrue(rule.matches("12345"));
+		assertTrue(rule.matches("12345 "));
+		assertTrue(rule.matches(" 12345"));
+		assertTrue(rule.matches(" 12345 "));
+		// Fails
+		assertFalse(rule.matches(""));
+		assertFalse(rule.matches("a"));
+		assertFalse(rule.matches("a bc "));
+		assertFalse(rule.matches("1234"));
+		assertFalse(rule.matches("1234 "));
+		assertFalse(rule.matches(" 1234"));
+		assertFalse(rule.matches(" 1234 "));
 	}
 
 	@Test
-	public void matchesStart() {
-		assertEquals(-1, alt.matchStart("0"));
-		assertEquals(3, alt.matchStart("abc"));
-		assertEquals(4, alt.matchStart("abcd"));
-		assertEquals(-1, alt.matchStart("   "));
-		assertEquals(4, alt.matchStart("abc "));
-		assertEquals(6, alt.matchStart(" abcd "));
-		assertEquals(6, alt.matchStart(" abcd 3"));
-		assertEquals(5, alt.matchStart(" abcd0abcd"));
+	public void maxMatchLengthTest() {
+		assertEquals(0, rule.maxMatchLength(""));
+		assertEquals(1, rule.maxMatchLength("a"));
+		assertEquals(2, rule.maxMatchLength("ab"));
+		assertEquals(3, rule.maxMatchLength("abc"));
+		assertEquals(4, rule.maxMatchLength(" abc"));
+		assertEquals(4, rule.maxMatchLength("abc "));
+		assertEquals(5, rule.maxMatchLength("12345"));
+		assertEquals(6, rule.maxMatchLength(" 12345"));
+		assertEquals(6, rule.maxMatchLength("12345 "));
 	}
 
+	@Test
+	public void firstMatchTest() {
+		assertEquals(0, rule.firstMatch(""));
+		assertEquals(1, rule.firstMatch("a"));
+		assertEquals(2, rule.firstMatch("ab"));
+		assertEquals(0, rule.firstMatch("abc"));
+		assertEquals(0, rule.firstMatch(" abc"));
+		assertEquals(0, rule.firstMatch("abc "));
+		assertEquals(0, rule.firstMatch("12345"));
+		assertEquals(0, rule.firstMatch(" 12345"));
+		assertEquals(0, rule.firstMatch("12345 "));
+		assertEquals(0, rule.firstMatch("abc 12345"));
+		assertEquals(0, rule.firstMatch("12345 abc"));
+		assertEquals(3, rule.firstMatch("xxx abc"));
+	}
 }
