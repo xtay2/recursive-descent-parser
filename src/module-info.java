@@ -11,6 +11,10 @@ module recursive.descent.parser {
 	// Tests
 	exports tests.rules.nonterminals;
 	exports tests.rules.terminals;
+	exports parser.app.rules.nonterminals.multi;
+	exports parser.app.rules.nonterminals.extensions;
+	exports tests.rules.nonterminals.extensions;
+	exports tests.rules.nonterminals.multi;
 
 
 	// Requirements

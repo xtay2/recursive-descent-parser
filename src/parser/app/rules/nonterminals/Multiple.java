@@ -1,30 +1,29 @@
 package parser.app.rules.nonterminals;
 
-import parser.app.rules.abstractions.NonTerminal;
+import helper.util.types.Nat;
+import parser.app.rules.abstractions.NonTerminalCollection;
 import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.Token;
 import parser.app.tokens.collection.TokenList;
-import helper.util.types.Nat;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class Multiple extends NonTerminal {
+public final class Multiple extends NonTerminalCollection<Multiple, List<Token>, TokenList> {
 
-	final Rule rule;
-	final BiFunction<Multiple, List<Token>, TokenList> tokenFactory;
+	private final Rule rule;
 
+	@SuppressWarnings("unused")
 	public Multiple(Rule rule) {
-		super(rule.minLen, Nat.INF);
+		super(rule.minLen, Nat.INF, TokenList::new);
 		this.rule = rule;
-		this.tokenFactory = TokenList::new;
 	}
 
+	@SuppressWarnings("unused")
 	public Multiple(BiFunction<Multiple, List<Token>, TokenList> tokenFactory, Rule rule) {
-		super(rule.minLen, Nat.INF);
+		super(rule.minLen, Nat.INF, tokenFactory);
 		this.rule = rule;
-		this.tokenFactory = tokenFactory;
 	}
 
 	@Override
@@ -48,20 +47,32 @@ public class Multiple extends NonTerminal {
 
 	@Override
 	public boolean matches(String input) {
-		int maxMatchLength = maxMatchLength(input);
-		return minLen.leq(maxMatchLength) && maxMatchLength == input.length();
+		if (input.strip().length() < minLen.intValue())
+			return false;
+		int start = 0;
+		String snippet;
+		int length;
+		do {
+			snippet = input.substring(start);
+			length = rule.maxMatchLength(snippet);
+			if (rule.matches(snippet.substring(0, length)))
+				start += length;
+			else break;
+		} while (length < input.length());
+		return start == input.length();
 	}
 
 	@Override
 	public int maxMatchLength(String input) {
-		int length = 0;
-		var snippet = input;
+		int start = 0;
+		String snippet;
+		int length;
 		do {
-			snippet = input.substring(length);
-			int maxMatchLength = rule.maxMatchLength(snippet);
-			length += maxMatchLength;
-		} while (!rule.matches(snippet));
-		return length;
+			snippet = input.substring(start);
+			length = rule.maxMatchLength(snippet);
+			start += length;
+		} while (rule.matches(snippet.substring(0, length)));
+		return start;
 	}
 
 	@Override

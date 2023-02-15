@@ -1,39 +1,25 @@
-package parser.app.rules.nonterminals;
+package parser.app.rules.nonterminals.multi;
 
-import parser.app.rules.abstractions.NonTerminal;
+import parser.app.rules.abstractions.MultiNonTerminalCollection;
 import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.Token;
 import parser.app.tokens.collection.TokenArray;
-import helper.util.CollectionHelper;
-import helper.util.types.Nat;
 
 import java.util.function.BiFunction;
 
-import static java.util.Arrays.stream;
+import static helper.util.CollectionHelper.mapJoin;
 
-public class Sequence extends NonTerminal {
+public final class Ordered extends MultiNonTerminalCollection<Ordered, Token[], TokenArray> {
 
-	final Rule[] rules;
-	final BiFunction<Sequence, Token[], TokenArray> tokenFactory;
-
-	public Sequence(Rule... rules) {
-		super(
-				stream(rules).reduce(Nat.ZERO, (a, b) -> a.add(b.minLen), Nat::add),
-				stream(rules).reduce(Nat.ZERO, (a, b) -> a.add(b.maxLen), Nat::add)
-		);
-		this.rules = rules;
-		this.tokenFactory = TokenArray::new;
+	@SuppressWarnings("unused")
+	public Ordered(Rule... rules) {
+		super(TokenArray::new, rules);
 	}
 
-	public Sequence(BiFunction<Sequence, Token[], TokenArray> tokenFactory, Rule... rules) {
-		super(
-				stream(rules).reduce(Nat.ZERO, (a, b) -> a.add(b.minLen), Nat::add),
-				stream(rules).reduce(Nat.ZERO, (a, b) -> a.add(b.maxLen), Nat::add)
-		);
-		this.rules = rules;
-		this.tokenFactory = tokenFactory;
+	@SuppressWarnings("unused")
+	public Ordered(BiFunction<Ordered, Token[], TokenArray> tokenFactory, Rule... rules) {
+		super(tokenFactory, rules);
 	}
-
 
 	@Override
 	public TokenArray tokenize(String input) {
@@ -87,7 +73,7 @@ public class Sequence extends NonTerminal {
 
 	@Override
 	public String toString() {
-		return CollectionHelper.mapJoin(rules, Rule::toString, " ");
+		return "(" + mapJoin(rules, Rule::toString, " ") + ")";
 	}
 
 }

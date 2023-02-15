@@ -1,48 +1,40 @@
-package tests.rules.nonterminals;
+package tests.rules.nonterminals.multi;
 
-import parser.app.rules.abstractions.Rule;
-import parser.app.rules.nonterminals.Sequence;
+import org.junit.Test;
+import parser.app.rules.nonterminals.multi.Ordered;
 import parser.app.rules.terminals.Literal;
-import parser.app.tokens.collection.TokenArray;
 import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class SequenceTest {
+public class OrderedTest {
 
-	Rule rule = new Sequence(new Literal("abc"), new Literal("12345"));
+	final Ordered rule = new Ordered(new Literal("abc"), new Literal("12345"));
 
 	@Test
 	public void tokenizeTest() {
 		// Matches
 		var m1 = rule.tokenize(" abc 12345 ");
-		assertTrue(m1 instanceof TokenArray);
 		assertEquals("abc 12345", m1.section());
 
 		var m2 = rule.tokenize("abc12345");
-		assertTrue(m2 instanceof TokenArray);
 		assertEquals("abc 12345", m2.section());
 
 		// Fails
 		var f1 = rule.tokenize("");
-		assertTrue(f1 instanceof TokenArray);
-		assertTrue(((TokenArray) f1).get(0) instanceof ErrorToken e && e.section().isEmpty());
-		assertTrue(((TokenArray) f1).get(1) instanceof ErrorToken e && e.section().isEmpty());
+		assertTrue(f1.get(0) instanceof ErrorToken e && e.section().isEmpty());
+		assertTrue(f1.get(1) instanceof ErrorToken e && e.section().isEmpty());
 		assertEquals("", f1.section());
 
 		var f2 = rule.tokenize("12345abc");
-		assertTrue(f2 instanceof TokenArray);
-		assertTrue(((TokenArray) f2).get(0) instanceof ErrorToken e && e.section().isEmpty());
-		assertTrue(((TokenArray) f2).get(1) instanceof ErrorToken e && e.section().equals("12345abc"));
+		assertTrue(f2.get(0) instanceof ErrorToken e && e.section().isEmpty());
+		assertTrue(f2.get(1) instanceof ErrorToken e && e.section().equals("12345abc"));
 		assertEquals("12345abc", f2.section());
 
 		var f3 = rule.tokenize("abc hello 12345");
-		assertTrue(f3 instanceof TokenArray);
-		System.out.println(f3);
-		assertTrue(((TokenArray) f3).get(0) instanceof TerminalToken t && t.section().equals("abc"));
-		assertTrue(((TokenArray) f3).get(1) instanceof ErrorToken e && e.section().equals("hello 12345"));
+		assertTrue(f3.get(0) instanceof TerminalToken t && t.section().equals("abc"));
+		assertTrue(f3.get(1) instanceof ErrorToken e && e.section().equals("hello 12345"));
 	}
 
 	@Test

@@ -1,15 +1,20 @@
-package parser.app.rules.nonterminals;
+package parser.app.rules.nonterminals.extensions;
 
-import parser.app.rules.abstractions.NonTerminal;
+import helper.util.types.Nat;
 import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.Token;
 import parser.app.tokens.monads.TerminalToken;
-import helper.util.types.Nat;
 
-public class Optional extends NonTerminal {
+public final class Optional extends Rule {
 
 	private final Rule rule;
 
+	/**
+	 * Marks the passed rule as optional.
+	 * <p>
+	 * This allows the rule to match an empty input.
+	 */
+	@SuppressWarnings("unused")
 	public Optional(Rule rule) {
 		super(Nat.ZERO, rule.maxLen);
 		this.rule = rule;

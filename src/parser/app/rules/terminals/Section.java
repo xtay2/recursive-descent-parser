@@ -1,23 +1,26 @@
 package parser.app.rules.terminals;
 
+import helper.util.types.Nat;
 import parser.app.rules.abstractions.Terminal;
 import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
 import parser.app.tokens.monads.TokenMonad;
-import helper.base.StringHelper;
-import helper.util.types.Nat;
 
 import java.util.Objects;
+
+import static helper.base.StringHelper.leadingSpaces;
 
 public final class Section extends Terminal {
 
 	final char open, close;
 	final Character escape;
 
+	@SuppressWarnings("unused")
 	public Section(char open, char close) {
 		this(open, close, null);
 	}
 
+	@SuppressWarnings("unused")
 	public Section(char open, char close, Character escape) {
 		super(new Nat(2), Nat.INF);
 		assert open != escape && close != escape
@@ -29,8 +32,10 @@ public final class Section extends Terminal {
 
 	@Override
 	public TokenMonad tokenize(String input) {
-		if (matches(input))
-			return new TerminalToken(this, input.strip().substring(1, input.length() - 1));
+		if (matches(input)) {
+			var stripped = input.strip();
+			return new TerminalToken(this, stripped.substring(1, stripped.length() - 1));
+		}
 		return new ErrorToken(this, input);
 	}
 
@@ -42,7 +47,7 @@ public final class Section extends Terminal {
 
 	@Override
 	public int maxMatchLength(String input) {
-		int leadingSpaces = StringHelper.leadingSpaces(input);
+		int leadingSpaces = leadingSpaces(input);
 		int balance = 0;
 		for (int i = leadingSpaces; i < input.length(); i++) {
 			var c = input.charAt(i);
@@ -51,7 +56,7 @@ public final class Section extends Terminal {
 			else if (c == close) {
 				balance--;
 				if (balance == 0)
-					return i + 1;
+					return i + 1 + leadingSpaces(input.substring(i + 1));
 			} else if (Objects.equals(c, escape))
 				i++;
 		}

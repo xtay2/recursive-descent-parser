@@ -1,17 +1,15 @@
 package tests.rules.nonterminals;
 
-import parser.app.rules.abstractions.Rule;
+import org.junit.Test;
 import parser.app.rules.nonterminals.Alteration;
 import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class AlterationTest {
-
-	Rule optRule = new Alteration(true, "abc", "12345");
-	Rule rule = new Alteration(false, "abc", "12345");
+	final Alteration optRule = new Alteration(true, "abc", "12345");
+	final Alteration rule = new Alteration(false, "abc", "12345");
 
 	@Test
 	public void tokenizeTest() {

@@ -8,7 +8,7 @@ public abstract sealed class Token permits TokenCollection, TokenMonad {
 
 	public final int inputLength;
 
-	public Rule rule;
+	public final Rule rule;
 
 	public Token(Rule rule, int inputLength) {
 		this.inputLength = inputLength;

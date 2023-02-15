@@ -4,7 +4,8 @@ import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.Token;
 
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import static helper.util.CollectionHelper.mapJoin;
 
 public class TokenSet extends TokenCollection<Set<Token>> {
 
@@ -14,8 +15,6 @@ public class TokenSet extends TokenCollection<Set<Token>> {
 
 	@Override
 	public String debugStruct() {
-		return rule + ": " + tokens.stream()
-				.map(Token::debugStruct)
-				.collect(Collectors.joining(",\n", "{", "}"));
+		return rule + ": {" + mapJoin(tokens, Token::debugStruct, ",\n") + "}";
 	}
 }

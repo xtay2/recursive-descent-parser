@@ -1,22 +1,35 @@
 package parser.app.rules.nonterminals;
 
-import parser.app.rules.abstractions.NonTerminal;
+import helper.util.types.Nat;
 import parser.app.rules.abstractions.Rule;
+import parser.app.rules.nonterminals.extensions.Optional;
 import parser.app.rules.terminals.Literal;
 import parser.app.tokens.Token;
-import helper.util.types.Nat;
+import parser.app.tokens.monads.TerminalToken;
 
+import static helper.util.ArrayHelper.map;
 import static helper.util.CollectionHelper.mapJoin;
 import static java.util.Arrays.stream;
 
-public final class Alteration extends NonTerminal {
+/**
+ * A {@link Rule} that matches the first possible of the given rules.
+ */
+public final class Alteration extends Rule {
 
-	final Rule[] rules;
+	private final Rule[] rules;
 
+	@SuppressWarnings("unused")
 	public Alteration(boolean optional, String... literals) {
-		this(optional, stream(literals).map(Literal::new).toArray(Rule[]::new));
+		this(optional, map(literals, Literal::new, Rule[]::new));
 	}
 
+	/**
+	 * Creates a new {@link Alteration} with the passed rules.
+	 *
+	 * @param optional If true, empty input can be matched. This is preferred over using an {@link Optional} rule.
+	 * @param rules    The rules to match.
+	 */
+	@SuppressWarnings("unused")
 	public Alteration(boolean optional, Rule... rules) {
 		super(optional
 		      ? Nat.ZERO
@@ -33,6 +46,8 @@ public final class Alteration extends NonTerminal {
 
 	@Override
 	public Token tokenize(String input) {
+		if (isOptional() && input.isBlank())
+			return new TerminalToken(this, input);
 		Rule bestRule = null;
 		int bestRuleLen = -1;
 		for (var rule : rules) {

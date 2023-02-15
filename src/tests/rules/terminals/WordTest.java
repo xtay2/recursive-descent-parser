@@ -1,16 +1,15 @@
 package tests.rules.terminals;
 
-import parser.app.rules.abstractions.Rule;
+import org.junit.Test;
 import parser.app.rules.terminals.Word;
 import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class WordTest {
 
-	Rule rule = new Word('a', 'z', 3);
+	final Word rule = new Word('a', 'z', 3);
 
 	@Test
 	public void tokenizeTest() {

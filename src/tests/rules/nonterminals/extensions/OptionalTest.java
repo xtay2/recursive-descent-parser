@@ -1,17 +1,17 @@
-package tests.rules.nonterminals;
+package tests.rules.nonterminals.extensions;
 
+import org.junit.Test;
 import parser.app.rules.abstractions.Rule;
-import parser.app.rules.nonterminals.Optional;
+import parser.app.rules.nonterminals.extensions.Optional;
 import parser.app.rules.terminals.Literal;
 import parser.app.tokens.monads.TerminalToken;
-import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class OptionalTest {
 
-	Rule rule = new Optional(new Literal("abc"));
+	final Rule rule = new Optional(new Literal("abc"));
 
 	@Test
 	public void tokenizeTest() {

@@ -1,16 +1,16 @@
 package tests.rules.terminals;
 
+import org.junit.Test;
 import parser.app.rules.abstractions.Rule;
 import parser.app.rules.terminals.Literal;
 import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
-import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class LiteralTest {
 
-	Rule rule = new Literal("abc");
+	final Rule rule = new Literal("abc");
 
 	@Test
 	public void tokenizeTest() {

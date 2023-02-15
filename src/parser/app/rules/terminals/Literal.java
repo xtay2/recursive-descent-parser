@@ -1,7 +1,7 @@
 package parser.app.rules.terminals;
 
-import parser.app.rules.abstractions.Terminal;
 import helper.util.types.Nat;
+import parser.app.rules.abstractions.Terminal;
 
 import static helper.base.StringHelper.commonPrefix;
 import static helper.base.StringHelper.leadingSpaces;
@@ -10,6 +10,7 @@ public final class Literal extends Terminal {
 
 	private final String literal;
 
+	@SuppressWarnings("unused")
 	public Literal(String literal) {
 		super(new Nat(literal.length()), new Nat(literal.length()));
 		this.literal = literal;

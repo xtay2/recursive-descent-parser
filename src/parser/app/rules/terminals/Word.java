@@ -1,21 +1,20 @@
 package parser.app.rules.terminals;
 
-import parser.app.rules.abstractions.Terminal;
 import helper.util.types.Nat;
+import parser.app.rules.abstractions.Terminal;
 
 import static java.lang.Character.isWhitespace;
-import static java.lang.Math.min;
 
 public final class Word extends Terminal {
 
-	public final char from, to;
+	private final char from, to;
 
 	/**
-	 * A word has to have a length of 1-128.
-	 * It cannot contain any kind of whitespace.
+	 * A word cannot contain any kind of whitespace.
 	 */
+	@SuppressWarnings("unused")
 	public Word(char from, char to, int maxLen) {
-		super(new Nat(1), new Nat(min(128, maxLen)));
+		super(new Nat(1), new Nat(maxLen));
 		this.from = from;
 		this.to = to;
 		// Word cannot contain whitespace
