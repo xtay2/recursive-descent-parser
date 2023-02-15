@@ -71,3 +71,8 @@ Meanwhile calling `exp.tokenize("10 xxx * 147")` will result in:
   ]
 }
 ```
+
+## Dependencies
+This project requires:
+- Java [jdk18](https://www.oracle.com/java/technologies/javase/jdk18-archive-downloads.html)
+- The [helper-library](https://github.com/xtay2/helper)
