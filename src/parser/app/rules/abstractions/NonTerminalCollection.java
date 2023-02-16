@@ -1,7 +1,7 @@
 package parser.app.rules.abstractions;
 
 import helper.util.types.Nat;
-import parser.app.rules.nonterminals.Multiple;
+import parser.app.rules.nonterminals.extensions.Multiple;
 import parser.app.tokens.collection.TokenCollection;
 
 import java.util.function.BiFunction;

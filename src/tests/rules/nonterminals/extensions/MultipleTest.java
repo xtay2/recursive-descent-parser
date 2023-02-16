@@ -1,14 +1,14 @@
-package tests.rules.nonterminals;
+package tests.rules.nonterminals.extensions;
 
 import org.junit.Test;
-import parser.app.rules.nonterminals.Multiple;
+import parser.app.rules.nonterminals.extensions.Multiple;
 import parser.app.rules.terminals.Literal;
 
 import static org.junit.Assert.*;
 
 public class MultipleTest {
 
-	final Multiple rule = new Multiple(new Literal("abc"));
+	final Multiple rule = new Multiple(false, new Literal("abc"));
 
 	@Test
 	public void tokenizeTest() {

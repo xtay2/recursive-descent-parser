@@ -13,7 +13,8 @@ public final class Literal extends Terminal {
 	@SuppressWarnings("unused")
 	public Literal(String literal) {
 		super(new Nat(literal.length()), new Nat(literal.length()));
-		this.literal = literal;
+		this.literal = literal.strip();
+		assert !this.literal.isEmpty() : "Literal cannot be empty";
 	}
 
 	@Override

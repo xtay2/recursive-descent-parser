@@ -13,10 +13,18 @@ public final class Word extends Terminal {
 	 * A word cannot contain any kind of whitespace.
 	 */
 	@SuppressWarnings("unused")
+	public Word(char from, char to) {
+		this(from, to, Integer.MAX_VALUE);
+	}
+
+	/**
+	 * A word cannot contain any kind of whitespace.
+	 */
+	@SuppressWarnings("unused")
 	public Word(char from, char to, int maxLen) {
 		super(new Nat(1), new Nat(maxLen));
-		this.from = from;
-		this.to = to;
+		this.from = from < to ? from : to;
+		this.to = from < to ? to : from;
 		// Word cannot contain whitespace
 		for (char c = from; c <= to; c++)
 			assert !isWhitespace(c) : "Word cannot contain whitespace.";

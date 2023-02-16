@@ -1,7 +1,7 @@
-package tests.rules.nonterminals;
+package tests.rules.nonterminals.extensions;
 
 import org.junit.Test;
-import parser.app.rules.nonterminals.Alteration;
+import parser.app.rules.nonterminals.extensions.Alteration;
 import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
 

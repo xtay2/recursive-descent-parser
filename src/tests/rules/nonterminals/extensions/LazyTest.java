@@ -2,9 +2,8 @@ package tests.rules.nonterminals.extensions;
 
 import org.junit.Test;
 import parser.app.rules.abstractions.Rule;
-import parser.app.rules.nonterminals.Multiple;
 import parser.app.rules.nonterminals.extensions.Lazy;
-import parser.app.rules.nonterminals.extensions.Optional;
+import parser.app.rules.nonterminals.extensions.Multiple;
 import parser.app.rules.nonterminals.multi.Ordered;
 import parser.app.rules.terminals.Literal;
 
@@ -15,7 +14,7 @@ public class LazyTest {
 	final Rule rule() {
 		return new Ordered(
 				new Literal("["),
-				new Optional(new Multiple(new Lazy(this::rule))),
+				new Multiple(true, new Lazy(this::rule)),
 				new Literal("]")
 		);
 	}

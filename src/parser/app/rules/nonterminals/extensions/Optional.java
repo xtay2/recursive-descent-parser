@@ -18,6 +18,7 @@ public final class Optional extends Rule {
 	public Optional(Rule rule) {
 		super(Nat.ZERO, rule.maxLen);
 		this.rule = rule;
+		assert !rule.isOptional() : "Optional rule is redundant.";
 	}
 
 	@Override

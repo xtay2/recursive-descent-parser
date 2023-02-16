@@ -1,12 +1,15 @@
-package parser.app.rules.nonterminals;
+package parser.app.rules.nonterminals.extensions;
 
 import helper.util.types.Nat;
 import parser.app.rules.abstractions.NonTerminalCollection;
 import parser.app.rules.abstractions.Rule;
+import parser.app.rules.nonterminals.multi.Ordered;
 import parser.app.tokens.Token;
 import parser.app.tokens.collection.TokenList;
+import parser.app.tokens.monads.ErrorToken;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -15,19 +18,26 @@ public final class Multiple extends NonTerminalCollection<Multiple, List<Token>,
 	private final Rule rule;
 
 	@SuppressWarnings("unused")
-	public Multiple(Rule rule) {
-		super(rule.minLen, Nat.INF, TokenList::new);
+	public Multiple(boolean optional, Rule rule) {
+		super(optional ? Nat.ZERO : rule.minLen, Nat.INF, TokenList::new);
 		this.rule = rule;
 	}
 
 	@SuppressWarnings("unused")
-	public Multiple(BiFunction<Multiple, List<Token>, TokenList> tokenFactory, Rule rule) {
-		super(rule.minLen, Nat.INF, tokenFactory);
+	public Multiple(boolean optional, Rule... rules) {
+		this(optional, new Ordered(rules));
+	}
+
+	@SuppressWarnings("unused")
+	public Multiple(boolean optional, BiFunction<Multiple, List<Token>, TokenList> tokenFactory, Rule rule) {
+		super(optional ? Nat.ZERO : rule.minLen, Nat.INF, tokenFactory);
 		this.rule = rule;
 	}
 
 	@Override
 	public TokenList tokenize(String input) {
+		if (isOptional() && input.isBlank())
+			return tokenFactory.apply(this, Collections.emptyList());
 		List<Token> tokens = new ArrayList<>();
 		int length = 0;
 		var snippet = input;
@@ -36,17 +46,21 @@ public final class Multiple extends NonTerminalCollection<Multiple, List<Token>,
 			var maxMatchLength = rule.maxMatchLength(snippet);
 			if (rule.matches(snippet.substring(0, maxMatchLength))) {
 				tokens.add(rule.tokenize(snippet.substring(0, maxMatchLength)));
-				length += maxMatchLength;
 			} else {
-				tokens.add(rule.tokenize(snippet));
-				break;
+				maxMatchLength = rule.firstMatch(snippet);
+				if (maxMatchLength == 0)
+					maxMatchLength = snippet.length();
+				tokens.add(new ErrorToken(this, snippet.substring(0, maxMatchLength)));
 			}
+			length += maxMatchLength;
 		} while (length < input.length());
 		return tokenFactory.apply(this, tokens);
 	}
 
 	@Override
 	public boolean matches(String input) {
+		if (isOptional() && input.isBlank())
+			return true;
 		if (input.strip().length() < minLen.intValue())
 			return false;
 		int start = 0;
@@ -64,6 +78,8 @@ public final class Multiple extends NonTerminalCollection<Multiple, List<Token>,
 
 	@Override
 	public int maxMatchLength(String input) {
+		if (isOptional() && input.isBlank())
+			return input.length();
 		int start = 0;
 		String snippet;
 		int length;
@@ -77,6 +93,8 @@ public final class Multiple extends NonTerminalCollection<Multiple, List<Token>,
 
 	@Override
 	public int firstMatch(String input) {
+		if (isOptional() && input.isBlank())
+			return 0;
 		return rule.firstMatch(input);
 	}
 

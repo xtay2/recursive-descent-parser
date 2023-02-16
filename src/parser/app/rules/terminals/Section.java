@@ -12,21 +12,22 @@ import static helper.base.StringHelper.leadingSpaces;
 
 public final class Section extends Terminal {
 
-	final char open, close;
-	final Character escape;
+	private final char open, close;
+	private Character escape;
 
 	@SuppressWarnings("unused")
 	public Section(char open, char close) {
-		this(open, close, null);
+		super(new Nat(2), Nat.INF);
+		this.open = open;
+		this.close = close;
+		this.escape = null;
 	}
 
 	@SuppressWarnings("unused")
-	public Section(char open, char close, Character escape) {
-		super(new Nat(2), Nat.INF);
+	public Section(char open, char close, char escape) {
+		this(open, close);
 		assert open != escape && close != escape
 				: "Escape character cannot be the same as open or close character";
-		this.open = open;
-		this.close = close;
 		this.escape = escape;
 	}
 

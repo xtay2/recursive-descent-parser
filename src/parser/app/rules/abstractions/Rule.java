@@ -1,7 +1,7 @@
 package parser.app.rules.abstractions;
 
 import helper.util.types.Nat;
-import parser.app.rules.nonterminals.Alteration;
+import parser.app.rules.nonterminals.extensions.Alteration;
 import parser.app.rules.nonterminals.extensions.Lazy;
 import parser.app.rules.nonterminals.extensions.Optional;
 import parser.app.tokens.Token;

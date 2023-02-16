@@ -1,8 +1,7 @@
-package parser.app.rules.nonterminals;
+package parser.app.rules.nonterminals.extensions;
 
 import helper.util.types.Nat;
 import parser.app.rules.abstractions.Rule;
-import parser.app.rules.nonterminals.extensions.Optional;
 import parser.app.rules.terminals.Literal;
 import parser.app.tokens.Token;
 import parser.app.tokens.monads.TerminalToken;
@@ -42,6 +41,7 @@ public final class Alteration extends Rule {
 						.orElseThrow()
 		);
 		this.rules = rules;
+		assert rules.length >= 2;
 	}
 
 	@Override
