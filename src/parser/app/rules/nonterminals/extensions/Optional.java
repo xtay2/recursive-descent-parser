@@ -2,12 +2,21 @@ package parser.app.rules.nonterminals.extensions;
 
 import helper.util.types.Nat;
 import parser.app.rules.abstractions.Rule;
+import parser.app.rules.nonterminals.multi.Ordered;
 import parser.app.tokens.Token;
 import parser.app.tokens.monads.TerminalToken;
 
 public final class Optional extends Rule {
 
 	private final Rule rule;
+
+	/**
+	 * Groups the passed rules as ordered.
+	 */
+	@SuppressWarnings("unused")
+	public Optional(Rule... rule) {
+		this(new Ordered(rule));
+	}
 
 	/**
 	 * Marks the passed rule as optional.

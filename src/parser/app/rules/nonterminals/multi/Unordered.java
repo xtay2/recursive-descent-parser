@@ -8,7 +8,7 @@ import parser.app.tokens.collection.TokenSet;
 import parser.app.tokens.monads.ErrorToken;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.function.BiFunction;
 
@@ -39,7 +39,7 @@ public final class Unordered extends MultiNonTerminalCollection<Unordered, Set<T
 
 	@Override
 	public TokenSet tokenize(String input) {
-		var acceptedRules = new HashSet<Token>(rules.length);
+		Set<Token> acceptedRules = new LinkedHashSet<>(rules.length);
 		var remainingRules = toSet(rules);
 		int start = 0;
 		nextRule:
@@ -93,7 +93,7 @@ public final class Unordered extends MultiNonTerminalCollection<Unordered, Set<T
 		var remainingRules = toSet(rules);
 		int start = 0;
 		nextRule:
-		while (!remainingRules.isEmpty()) {
+		while (!remainingRules.isEmpty() && start < input.length()) {
 			var snippet = input.substring(start);
 			for (var rule : remainingRules) {
 				int matchLen = rule.maxMatchLength(snippet);
