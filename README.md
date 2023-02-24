@@ -14,6 +14,8 @@ This is a linear LL(k)-parser with error-recovery which is able to transform a t
 |[`Literal`](https://github.com/xtay2/recursive-descent-parser/wiki/Literal)| Matches a previously set string. |
 |[`Word`](https://github.com/xtay2/recursive-descent-parser/wiki/Word)      | Matches a section thats inside a specified range of characters with a max length. |
 |[`Section`](https://github.com/xtay2/recursive-descent-parser/wiki/Section)| Matches anything between two previously specified characters. |
+|[`Pattern`](https://github.com/xtay2/recursive-descent-parser/wiki/Pattern)| Matches a specified Regex-Pattern. |
+
 
 ### NonTerminals
 ---
