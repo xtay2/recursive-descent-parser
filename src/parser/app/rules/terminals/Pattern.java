@@ -14,25 +14,25 @@ public final class Pattern extends Terminal {
 
 	// ---------------------------------------------------------------------------------------------
 
-	public Pattern(java.util.regex.Pattern pattern) {
-		this(RegexPattern.compile(pattern.pattern()));
+	public Pattern(String regex) {
+		this(java.util.regex.Pattern.compile(regex));
 	}
 
-	public Pattern(RegexPattern regexElement) {
-		this(TerminalToken::new, regexElement);
+	public Pattern(java.util.regex.Pattern pattern) {
+		this(TerminalToken::new, pattern);
+	}
+
+	public Pattern(Function<String, TerminalToken> tokenFactory, String regex) {
+		this(tokenFactory, java.util.regex.Pattern.compile(regex));
 	}
 
 	public Pattern(Function<String, TerminalToken> tokenFactory, java.util.regex.Pattern pattern) {
 		this(tokenFactory, RegexPattern.compile(pattern.pattern()));
 	}
 
-	public Pattern(Function<String, TerminalToken> tokenFactory, RegexPattern regexElement) {
+	private Pattern(Function<String, TerminalToken> tokenFactory, RegexPattern regexElement) {
 		super(regexElement.minMatchLength(), regexElement.maxMatchLength(), tokenFactory);
 		this.pattern = regexElement.pattern();
-	}
-
-	public Pattern(String regex) {
-		this(java.util.regex.Pattern.compile(regex));
 	}
 
 	// ---------------------------------------------------------------------------------------------
