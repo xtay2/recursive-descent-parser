@@ -10,12 +10,12 @@ import parser.app.tokens.monads.ErrorToken;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static helper.util.ArrayHelper.*;
 import static helper.util.CollectionHelper.mapJoin;
 
-public final class Unordered extends MultiNonTerminalCollection<Unordered, Set<Token>, TokenSet> {
+public final class Unordered extends MultiNonTerminalCollection<Set<Token>, TokenSet> {
 
 	@SuppressWarnings("unused")
 	public Unordered(String... literals) {
@@ -28,12 +28,12 @@ public final class Unordered extends MultiNonTerminalCollection<Unordered, Set<T
 	}
 
 	@SuppressWarnings("unused")
-	public Unordered(BiFunction<Unordered, Set<Token>, TokenSet> tokenFactory, String... literals) {
+	public Unordered(Function<Set<Token>, TokenSet> tokenFactory, String... literals) {
 		this(tokenFactory, map(literals, Literal::new, Rule[]::new));
 	}
 
 	@SuppressWarnings("unused")
-	public Unordered(BiFunction<Unordered, Set<Token>, TokenSet> tokenFactory, Rule... rules) {
+	public Unordered(Function<Set<Token>, TokenSet> tokenFactory, Rule... rules) {
 		super(tokenFactory, rules);
 	}
 
@@ -55,12 +55,12 @@ public final class Unordered extends MultiNonTerminalCollection<Unordered, Set<T
 				}
 			}
 			int skip = shortestFirstMatch(snippet, remainingRules);
-			acceptedRules.add(new ErrorToken(this, snippet.substring(0, skip)));
+			acceptedRules.add(new ErrorToken(snippet.substring(0, skip)));
 			start += skip;
 		}
 		if (start < input.length())
-			acceptedRules.add(new ErrorToken(this, input.substring(start)));
-		return tokenFactory.apply(this, acceptedRules);
+			acceptedRules.add(new ErrorToken(input.substring(start)));
+		return tokenFactory.apply(acceptedRules);
 	}
 
 	@Override
@@ -115,8 +115,8 @@ public final class Unordered extends MultiNonTerminalCollection<Unordered, Set<T
 
 	private int shortestFirstMatch(String input, Collection<Rule> rules) {
 		return rules.stream()
-				.mapToInt(r -> r.firstMatch(input))
-				.min().orElseThrow();
+		            .mapToInt(r -> r.firstMatch(input))
+		            .min().orElseThrow();
 	}
 
 	@Override

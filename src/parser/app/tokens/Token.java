@@ -1,6 +1,5 @@
 package parser.app.tokens;
 
-import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.collection.TokenCollection;
 import parser.app.tokens.monads.TokenMonad;
 
@@ -8,11 +7,9 @@ public abstract sealed class Token permits TokenCollection, TokenMonad {
 
 	public final int inputLength;
 
-	public final Rule rule;
 
-	public Token(Rule rule, int inputLength) {
+	public Token(int inputLength) {
 		this.inputLength = inputLength;
-		this.rule = rule;
 	}
 
 	/**
@@ -20,8 +17,7 @@ public abstract sealed class Token permits TokenCollection, TokenMonad {
 	 */
 	public abstract String section();
 
-	/** Returns the token-structure in a json-like format. */
-	public abstract String debugStruct();
+	public abstract boolean hasError();
 
 	public abstract String toString();
 

@@ -15,7 +15,6 @@ public class SectionTest {
 	public void tokenizeTest() {
 		// Matches
 		var m1 = rule.tokenize(" {x} ");
-		System.out.println(m1);
 		assertTrue(m1 instanceof TerminalToken);
 		assertEquals("x", m1.section());
 

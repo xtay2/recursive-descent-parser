@@ -2,42 +2,52 @@ package parser.app.rules.terminals;
 
 import helper.util.types.Nat;
 import parser.app.rules.abstractions.Terminal;
-import parser.app.tokens.monads.ErrorToken;
 import parser.app.tokens.monads.TerminalToken;
-import parser.app.tokens.monads.TokenMonad;
 
 import java.util.Objects;
+import java.util.function.Function;
 
-import static helper.base.StringHelper.leadingSpaces;
+import static helper.base.text.StringHelper.leadingSpaces;
 
 public final class Section extends Terminal {
 
 	private final char open, close;
 	private Character escape;
 
+	// ---------------------------------------------------------------------------------------------
+
 	@SuppressWarnings("unused")
 	public Section(char open, char close) {
-		super(new Nat(2), Nat.INF);
+		this(TerminalToken::new, open, close);
+	}
+
+	@SuppressWarnings("unused")
+	public Section(char open, char close, char escape) {
+		this(TerminalToken::new, open, close, escape);
+	}
+
+	@SuppressWarnings("unused")
+	public Section(Function<String, TerminalToken> tokenFactory, char open, char close) {
+		super(new Nat(2), Nat.INF, tokenFactory);
 		this.open = open;
 		this.close = close;
 		this.escape = null;
 	}
 
 	@SuppressWarnings("unused")
-	public Section(char open, char close, char escape) {
-		this(open, close);
+	public Section(Function<String, TerminalToken> tokenFactory, char open, char close, char escape) {
+		this(tokenFactory, open, close);
 		assert open != escape && close != escape
 				: "Escape character cannot be the same as open or close character";
 		this.escape = escape;
 	}
 
+	// ---------------------------------------------------------------------------------------------
+
 	@Override
-	public TokenMonad tokenize(String input) {
-		if (matches(input)) {
-			var stripped = input.strip();
-			return new TerminalToken(this, stripped.substring(1, stripped.length() - 1));
-		}
-		return new ErrorToken(this, input);
+	protected TerminalToken tokenizeMatched(String input) {
+		var stripped = input.strip();
+		return super.tokenizeMatched(stripped.substring(1, stripped.length() - 1));
 	}
 
 	@Override

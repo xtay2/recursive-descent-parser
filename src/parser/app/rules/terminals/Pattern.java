@@ -1,18 +1,41 @@
 package parser.app.rules.terminals;
 
-import helper.util.types.Nat;
+import helper.util.regex.RegexPattern;
 import parser.app.rules.abstractions.Terminal;
+import parser.app.tokens.monads.TerminalToken;
 
-import static helper.base.StringHelper.*;
+import java.util.function.Function;
+
+import static helper.base.text.StringHelper.*;
 
 public final class Pattern extends Terminal {
 
 	private final java.util.regex.Pattern pattern;
 
-	public Pattern(String regex) {
-		super(Nat.ZERO, Nat.INF);
-		this.pattern = java.util.regex.Pattern.compile(regex);
+	// ---------------------------------------------------------------------------------------------
+
+	public Pattern(java.util.regex.Pattern pattern) {
+		this(RegexPattern.compile(pattern.pattern()));
 	}
+
+	public Pattern(RegexPattern regexElement) {
+		this(TerminalToken::new, regexElement);
+	}
+
+	public Pattern(Function<String, TerminalToken> tokenFactory, java.util.regex.Pattern pattern) {
+		this(tokenFactory, RegexPattern.compile(pattern.pattern()));
+	}
+
+	public Pattern(Function<String, TerminalToken> tokenFactory, RegexPattern regexElement) {
+		super(regexElement.minMatchLength(), regexElement.maxMatchLength(), tokenFactory);
+		this.pattern = regexElement.pattern();
+	}
+
+	public Pattern(String regex) {
+		this(java.util.regex.Pattern.compile(regex));
+	}
+
+	// ---------------------------------------------------------------------------------------------
 
 	@Override
 	public boolean matches(String input) {

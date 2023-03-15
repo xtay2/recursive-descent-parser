@@ -1,16 +1,14 @@
 package parser.app.tokens.monads;
 
-import parser.app.rules.abstractions.Rule;
-
 public class TerminalToken extends TokenMonad {
 
-	public TerminalToken(Rule rule, String pureInput) {
-		super(rule, pureInput);
+	public TerminalToken(String pureInput) {
+		super(pureInput);
 	}
 
 	@Override
-	public String debugStruct() {
-		return rule + ": \"" + section + "\"";
+	public boolean hasError() {
+		return false;
 	}
 
 	@Override

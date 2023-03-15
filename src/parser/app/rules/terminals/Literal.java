@@ -2,20 +2,42 @@ package parser.app.rules.terminals;
 
 import helper.util.types.Nat;
 import parser.app.rules.abstractions.Terminal;
+import parser.app.tokens.monads.TerminalToken;
 
-import static helper.base.StringHelper.commonPrefix;
-import static helper.base.StringHelper.leadingSpaces;
+import java.util.function.Function;
+
+import static helper.base.text.StringHelper.commonPrefix;
+import static helper.base.text.StringHelper.leadingSpaces;
 
 public final class Literal extends Terminal {
 
 	private final String literal;
 
+	// ---------------------------------------------------------------------------------------------
+
+	@SuppressWarnings("unused")
+	public Literal(char literal) {
+		this(TerminalToken::new, literal);
+	}
+
+	@SuppressWarnings("unused")
+	public Literal(Function<String, TerminalToken> tokenFactory, char literal) {
+		this(tokenFactory, String.valueOf(literal));
+	}
+
 	@SuppressWarnings("unused")
 	public Literal(String literal) {
-		super(new Nat(literal.length()), new Nat(literal.length()));
+		this(TerminalToken::new, literal);
+	}
+
+	@SuppressWarnings("unused")
+	public Literal(Function<String, TerminalToken> tokenFactory, String literal) {
+		super(new Nat(literal.length()), new Nat(literal.length()), tokenFactory);
 		this.literal = literal.strip();
 		assert !this.literal.isEmpty() : "Literal cannot be empty";
 	}
+
+	// ---------------------------------------------------------------------------------------------
 
 	@Override
 	public boolean matches(String input) {

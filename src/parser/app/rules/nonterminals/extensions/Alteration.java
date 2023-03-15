@@ -36,9 +36,9 @@ public final class Alteration extends Rule {
 				      .map(r -> r.minLen)
 				      .min(Nat::compareTo)
 				      .orElseThrow(),
-				stream(rules).map(r -> r.maxLen)
-						.max(Nat::compareTo)
-						.orElseThrow()
+		      stream(rules).map(r -> r.maxLen)
+		                   .max(Nat::compareTo)
+		                   .orElseThrow()
 		);
 		this.rules = rules;
 		assert rules.length >= 2;
@@ -47,7 +47,7 @@ public final class Alteration extends Rule {
 	@Override
 	public Token tokenize(String input) {
 		if (isOptional() && input.isBlank())
-			return new TerminalToken(this, input);
+			return new TerminalToken(input);
 		Rule bestRule = null;
 		int bestRuleLen = -1;
 		for (var rule : rules) {

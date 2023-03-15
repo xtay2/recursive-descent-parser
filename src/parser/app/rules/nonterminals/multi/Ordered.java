@@ -5,11 +5,11 @@ import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.Token;
 import parser.app.tokens.collection.TokenArray;
 
-import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import static helper.util.CollectionHelper.mapJoin;
 
-public final class Ordered extends MultiNonTerminalCollection<Ordered, Token[], TokenArray> {
+public final class Ordered extends MultiNonTerminalCollection<Token[], TokenArray> {
 
 	@SuppressWarnings("unused")
 	public Ordered(Rule... rules) {
@@ -17,7 +17,7 @@ public final class Ordered extends MultiNonTerminalCollection<Ordered, Token[], 
 	}
 
 	@SuppressWarnings("unused")
-	public Ordered(BiFunction<Ordered, Token[], TokenArray> tokenFactory, Rule... rules) {
+	public Ordered(Function<Token[], TokenArray> tokenFactory, Rule... rules) {
 		super(tokenFactory, rules);
 	}
 
@@ -37,7 +37,7 @@ public final class Ordered extends MultiNonTerminalCollection<Ordered, Token[], 
 			tokens[r] = rules[r].tokenize(snippet.substring(0, matchLen));
 			start += matchLen;
 		}
-		return tokenFactory.apply(this, tokens);
+		return tokenFactory.apply(tokens);
 	}
 
 	@Override

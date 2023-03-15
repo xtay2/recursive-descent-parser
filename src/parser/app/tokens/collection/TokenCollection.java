@@ -1,11 +1,11 @@
 package parser.app.tokens.collection;
 
-import parser.app.rules.abstractions.Rule;
 import parser.app.tokens.Token;
 import parser.app.tokens.monads.ErrorToken;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 import static helper.util.CollectionHelper.mapJoin;
 import static java.util.stream.Collectors.joining;
@@ -17,12 +17,13 @@ public abstract non-sealed class TokenCollection
 
 	protected final C tokens;
 
-	public TokenCollection(Rule rule, C tokens) {
-		super(rule, tokens.stream().mapToInt(t -> t.inputLength).sum());
+	public TokenCollection(C tokens) {
+		super(tokens.stream().mapToInt(t -> t.inputLength).sum());
 		this.tokens = tokens;
 	}
 
 	@SuppressWarnings("unused")
+	@Override
 	public final boolean hasError() {
 		return tokens.stream().anyMatch(t -> t instanceof ErrorToken);
 	}
@@ -30,6 +31,10 @@ public abstract non-sealed class TokenCollection
 	@Override
 	public final Iterator<Token> iterator() {
 		return tokens.iterator();
+	}
+
+	public final Stream<Token> stream() {
+		return tokens.stream();
 	}
 
 	@SuppressWarnings("unused")
@@ -40,9 +45,9 @@ public abstract non-sealed class TokenCollection
 	@Override
 	public final String section() {
 		return tokens.stream()
-				.map(Token::section)
-				.filter(s -> !s.isEmpty())
-				.collect(joining(" "));
+		             .map(Token::section)
+		             .filter(s -> !s.isEmpty())
+		             .collect(joining(" "));
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public final class Optional extends Rule {
 	@Override
 	public Token tokenize(String input) {
 		if (input.isBlank())
-			return new TerminalToken(this, input);
+			return new TerminalToken(input);
 		return rule.tokenize(input);
 	}
 

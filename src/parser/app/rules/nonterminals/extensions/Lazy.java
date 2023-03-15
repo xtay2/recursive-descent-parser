@@ -54,7 +54,7 @@ public final class Lazy extends Rule {
 		return lazy(
 				ruleSupplier.get()::tokenize,
 				input,
-				() -> new ErrorToken(this, input)
+				() -> new ErrorToken(input)
 		);
 	}
 
