@@ -12,7 +12,6 @@ This is a linear LL(k)-parser with error-recovery which is able to transform a t
 | Name | Short Description |
 |------|-------------------|
 |[`Literal`](https://github.com/xtay2/recursive-descent-parser/wiki/Literal)| Matches a previously set string. |
-|[`Word`](https://github.com/xtay2/recursive-descent-parser/wiki/Word)      | Matches a section thats inside a specified range of characters with a max length. |
 |[`Section`](https://github.com/xtay2/recursive-descent-parser/wiki/Section)| Matches anything between two previously specified characters. |
 |[`Pattern`](https://github.com/xtay2/recursive-descent-parser/wiki/Pattern)| Matches a specified Regex-Pattern. |
 
@@ -38,19 +37,19 @@ exp := nr (op nr)*
 
 And this is the implementation with this library (the boolean-literal describes the optionality of the rule):
 ```Java
-Rule nr  = new Word('0', '9');
+Rule nr  = new Pattern("-?[0-9]");
 Rule op  = new Alteration(false, "+", "-", "*", "/");
 Rule exp = new Ordered(nr, new Multiple(true, op, nr));
 ```
 
-Now calling `exp.tokenize("10 + 20 * 147")` will yield the following tree:
+Now calling `exp.tokenize("10 + -20 * 147")` will yield the following tree:
 ```json
 "TokenArray": {
   "LiteralToken": "10",
   "TokenList": [
     "TokenArray": {
       "LiteralToken": "+",
-      "LiteralToken": "20"
+      "LiteralToken": "-20"
     },
     "TokenArray": {
       "LiteralToken": "*",
