@@ -30,7 +30,7 @@ This is a linear LL(k)-parser with error-recovery which is able to transform a t
 ## Example
 This is the EBNF for a simple mathematical expression:
 ```
-nr  := ('0' | ... | '9')+
+nr  := '-'? ('0' | ... | '9')+
 op  := '+' | '-' | '*' | '/'
 exp := nr (op nr)*
 ```
