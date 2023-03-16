@@ -18,7 +18,6 @@ public abstract non-sealed class TokenCollection
 	protected final C tokens;
 
 	public TokenCollection(C tokens) {
-		super(tokens.stream().mapToInt(t -> t.inputLength).sum());
 		this.tokens = tokens;
 	}
 

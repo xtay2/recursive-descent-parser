@@ -9,7 +9,7 @@ public non-sealed abstract class TokenMonad extends Token {
 
 	/** Turns un-stripped input into a token. */
 	public TokenMonad(String pureInput) {
-		super(pureInput.length());
+		super();
 		this.section = pureInput;
 	}
 

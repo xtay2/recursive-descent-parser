@@ -3,8 +3,7 @@ package parser.app.rules.nonterminals.extensions;
 import helper.util.types.Nat;
 import parser.app.rules.abstractions.Rule;
 import parser.app.rules.nonterminals.multi.Ordered;
-import parser.app.tokens.Token;
-import parser.app.tokens.monads.TerminalToken;
+import parser.app.tokens.monads.OptionalToken;
 
 public final class Optional extends Rule {
 
@@ -31,10 +30,10 @@ public final class Optional extends Rule {
 	}
 
 	@Override
-	public Token tokenize(String input) {
+	public OptionalToken tokenize(String input) {
 		if (input.isBlank())
-			return new TerminalToken(input);
-		return rule.tokenize(input);
+			return OptionalToken.EMPTY;
+		return OptionalToken.wrap(rule.tokenize(input));
 	}
 
 	@Override
